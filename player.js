@@ -1,5 +1,5 @@
 /* cyberia player — Atlas Shrugged, the set. one line to embed:
- *   <script src="https://cyberia.to/player.js" defer></script>
+ *   <script src="https://cyberia.to/player.js" async></script>
  * mounts into [data-cyberia-player] when the page has one, otherwise adds a fixed bar at the bottom.
  * data-mode="fab" on the script tag: a round button bottom-right (data-bottom / data-right in px) that
  * unfolds the panel on hover or tap — for pages whose header and bottom edge are already taken.
@@ -7,6 +7,7 @@
 (function () {
     if (window.__cyberiaPlayer) return; window.__cyberiaPlayer = true;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
+    function boot() {
     var SRC = 'https://cyberia.to/atlas.shrugged.set.mp3';
     var CID = 'QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9';
     var WAVE = 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs';
@@ -104,4 +105,14 @@
         });
     }
     size();
+    }
+    // never queue behind other deferred scripts: a hung tracker must not mute the player.
+    // embed with `async`; start as soon as <body> exists (slot mode waits for the slot or DOM ready).
+    function ready() {
+        if (!document.body) return false;
+        if (cfg.mode === 'fab') return true;
+        return !!document.querySelector('[data-cyberia-player]') || document.readyState !== 'loading';
+    }
+    if (ready()) boot();
+    else { var iv = setInterval(function () { if (ready()) { clearInterval(iv); boot(); } }, 50); }
 })();
