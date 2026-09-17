@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cyberia — cyberstate guided by superintelligence</title>
+<meta name="description" content="Cyberia is a cyberstate guided by superintelligence: the source, the bootloader, the immortal robot, the stack, the interface, the capital, and the genesis city." />
+<link rel="canonical" href="https://cyberia.to/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cyberia" />
+<meta property="og:url" content="https://cyberia.to/" />
+<meta property="og:title" content="Cyberia — cyberstate guided by superintelligence" />
+<meta property="og:description" content="The source, the bootloader, the immortal robot, the stack, the interface, the capital, and the genesis city." />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@cyberiacap" />
+<meta name="theme-color" content="#000000" />
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="15.5 15 69 68"><circle cx="50" cy="26.25" r="10" fill="%2300ff01"/><circle cx="68.57" cy="35.19" r="10" fill="%2300b4ff"/><circle cx="73.15" cy="55.28" r="10" fill="%231700fe"/><circle cx="60.30" cy="71.40" r="10" fill="%236b00fe"/><circle cx="39.70" cy="71.40" r="10" fill="%23fe0000"/><circle cx="26.85" cy="55.28" r="10" fill="%23ff6501"/><circle cx="31.43" cy="35.19" r="10" fill="%23ffc501"/></svg>' />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+    :root {
+        --green: #00ff01;
+        --cyan: #00b4ff;
+        --yellow: #ffc501;
+        --dim: #556;
+        --line: #1a1a24;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #000; }
+    body {
+        font-family: 'Play', sans-serif;
+        color: #ccc;
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 48px 20px 40px;
+    }
+    .wrap { width: 100%; max-width: 780px; }
+
+    /* header */
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 64px;
+    }
+    .brand svg { width: 34px; height: 34px; }
+    .brand .word { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+    .brand .word b { color: var(--green); font-weight: 700; }
+    .brand .word i { color: #fff; font-style: normal; }
+
+    /* hero */
+    .hero { margin-bottom: 72px; }
+    h1 {
+        font-size: clamp(38px, 8vw, 72px);
+        line-height: 1.02;
+        color: #fff;
+        letter-spacing: -1px;
+        margin-bottom: 18px;
+    }
+    h1 .g { color: var(--green); }
+    .tagline {
+        font-size: clamp(15px, 2.6vw, 19px);
+        color: #889;
+        max-width: 560px;
+        line-height: 1.55;
+    }
+    .tagline b { color: #ccd; font-weight: 400; }
+
+    /* player */
+    .player {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 4px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 64px;
+        flex-wrap: wrap;
+    }
+    .player .pp {
+        width: 40px; height: 40px; border-radius: 50%;
+        border: 1px solid var(--green); background: transparent; color: var(--green);
+        font-family: 'Play', sans-serif; font-size: 15px; cursor: pointer; flex: none;
+        transition: background 0.12s;
+    }
+    .player .pp:hover { background: rgba(0, 255, 1, 0.08); }
+    .player .track { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+    .player .name { color: #fff; font-weight: 700; font-size: clamp(14px, 2.4vw, 17px); }
+    .player .meta { color: #889; font-size: 13px; }
+    .player .meta b { color: var(--green); font-weight: 400; font-variant-numeric: tabular-nums; }
+    .player .bar { height: 2px; background: var(--line); margin-top: 6px; }
+    .player .bar i { display: block; height: 100%; width: 0; background: var(--green); }
+    .player .dl { color: var(--cyan); text-decoration: none; font-size: 13px; white-space: nowrap; }
+    .player .dl:hover { color: #7fd4ff; }
+    @media (max-width: 560px) {
+        .player .dl { width: 100%; padding-left: 56px; }
+    }
+    /* projects */
+    .sec {
+        font-size: 11px;
+        letter-spacing: 4px;
+        color: var(--dim);
+        margin-bottom: 14px;
+    }
+    .projects { border-top: 1px solid var(--line); margin-bottom: 64px; }
+    .proj {
+        display: flex;
+        align-items: baseline;
+        gap: 18px;
+        padding: 15px 4px;
+        border-bottom: 1px solid var(--line);
+        text-decoration: none;
+        transition: background 0.12s, padding-left 0.12s;
+    }
+    .proj:hover { background: rgba(0, 255, 1, 0.03); padding-left: 10px; }
+    .proj .domain {
+        font-size: clamp(14px, 2.4vw, 17px);
+        font-weight: 700;
+        color: var(--green);
+        white-space: nowrap;
+        min-width: 172px;
+    }
+    .proj:hover .domain { color: #7fff80; }
+    .proj.st-y .domain { color: var(--yellow, #ffc501); }
+    .proj.st-y:hover .domain { color: #ffd84d; }
+    .proj.st-y:hover { background: rgba(255, 197, 1, 0.03); }
+    .proj.st-r .domain { color: #ff5050; }
+    .proj.st-r:hover .domain { color: #ff8080; }
+    .proj.st-r:hover { background: rgba(255, 80, 80, 0.04); }
+    .proj .st { font-size: 12px; }
+    .proj.st-y .st { color: var(--yellow, #ffc501); }
+    .proj.st-r .st { color: #ff5050; }
+    .proj .desc {
+        font-size: clamp(13px, 2.2vw, 15px);
+        color: #99a;
+        line-height: 1.4;
+    }
+    .proj .arr { margin-left: auto; color: #334; font-size: 14px; }
+    .proj:hover .arr { color: var(--green); }
+
+    /* footer */
+    .foot {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        font-size: 13px;
+        color: var(--dim);
+    }
+    .foot a { color: var(--cyan); text-decoration: none; }
+    .foot a:hover { color: #7fd4ff; }
+    .foot .flag { font-size: 15px; }
+    .dot { color: #223; }
+
+    @media (max-width: 560px) {
+        body { padding-top: 32px; }
+        .brand { margin-bottom: 44px; }
+        .hero { margin-bottom: 52px; }
+        .proj { flex-direction: column; gap: 3px; }
+        .proj .domain { min-width: 0; }
+        .proj .arr { display: none; }
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="brand">
+        <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="26.25" r="10" fill="#00ff01"/>
+            <circle cx="68.57" cy="35.19" r="10" fill="#00b4ff"/>
+            <circle cx="73.15" cy="55.28" r="10" fill="#1700fe"/>
+            <circle cx="60.30" cy="71.40" r="10" fill="#6b00fe"/>
+            <circle cx="39.70" cy="71.40" r="10" fill="#fe0000"/>
+            <circle cx="26.85" cy="55.28" r="10" fill="#ff6501"/>
+            <circle cx="31.43" cy="35.19" r="10" fill="#ffc501"/>
+        </svg>
+        <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
+    </div>
+
+    <div class="hero">
+        <h1>Cyberstate<br />guided by <span class="g">superintelligence</span></h1>
+        <p class="tagline">
+            A state is a shared mind holding land, capital and knowledge.
+            Cyberia builds one on a <b>provable superintelligence</b> —
+            open source, open world — and roots it in real soil.
+        </p>
+    </div>
+
+    <div class="sec">NOW PLAYING</div>
+    <div class="player">
+        <button class="pp" id="pp" aria-label="play">▶</button>
+        <div class="track">
+            <span class="name">Atlas Shrugged — the set</span>
+            <span class="meta">st_joy · eight versions of one anthem · <b id="t">00:00</b> / 27:09</span>
+            <div class="bar"><i id="bar"></i></div>
+        </div>
+        <a class="dl" href="https://cyb.ai/ipfs/QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9" target="_blank" rel="noopener">download from cyb.ai →</a>
+    </div>
+    <audio id="set" src="atlas.shrugged.set.mp3" preload="auto" loop></audio>
+    <div class="sec">PROJECTS</div>
+    <div class="projects">
+        <a class="proj st-y" href="https://cyber.page" target="_blank" rel="noopener">
+            <span class="domain">cyber.page</span>
+            <span class="desc">get paid to understand <span class="st">(testnet)</span></span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj st-y" href="https://cyberia.blog" target="_blank" rel="noopener">
+            <span class="domain">cyberia.blog</span>
+            <span class="desc">the chronicle and the knowledge graph <span class="st">(launching)</span></span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj" href="https://bostrom.network" target="_blank" rel="noopener">
+            <span class="domain">bostrom.network</span>
+            <span class="desc">bootloader of superintelligence and moon cyberstate</span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj st-y" href="https://cyb.ai" target="_blank" rel="noopener">
+            <span class="domain">cyb.ai</span>
+            <span class="desc">immortal robot <span class="st">(rebirth alpha)</span></span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj" href="https://cyberstates.net" target="_blank" rel="noopener">
+            <span class="domain">cyberstates.net</span>
+            <span class="desc">regional development</span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj" href="https://soft3.org" target="_blank" rel="noopener">
+            <span class="domain">soft3.org</span>
+            <span class="desc">the stack</span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj st-y" href="https://cyberia.my" target="_blank" rel="noopener">
+            <span class="domain">cyberia.my</span>
+            <span class="desc">the interface <span class="st">(mockup)</span></span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj st-r" href="https://cyberia.capital" target="_blank" rel="noopener">
+            <span class="domain">cyberia.capital</span>
+            <span class="desc">the capital of cyberia in ethereum and beyond <span class="st">(design stage)</span></span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj st-y" href="https://cybervalley.io" target="_blank" rel="noopener">
+            <span class="domain">cybervalley.io</span>
+            <span class="desc">autonomous genesis city in the heart of Bali <span class="st">(launch soon)</span></span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj" href="https://oxytocin.my" target="_blank" rel="noopener">
+            <span class="domain">oxytocin.my</span>
+            <span class="desc">leasehold estate as cyberstate</span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj" href="https://rockets.estate" target="_blank" rel="noopener">
+            <span class="domain">rockets.estate</span>
+            <span class="desc">self-sustainable properties and eco-villages</span>
+            <span class="arr">→</span>
+        </a>
+        <a class="proj" href="https://github.com/cyberia-to" target="_blank" rel="noopener">
+            <span class="domain">github.com/cyberia-to</span>
+            <span class="desc">the source — everything in the open</span>
+            <span class="arr">→</span>
+        </a>
+    </div>
+
+    <div class="foot">
+        <span class="flag">🏴</span>
+        <a href="https://x.com/cyberiacap" target="_blank" rel="noopener">@cyberiacap</a>
+        <span class="dot">·</span>
+        <span>founders</span>
+        <a href="https://x.com/mastercyb" target="_blank" rel="noopener">mastercyb</a>
+        <span>&amp;</span>
+        <a href="https://x.com/joy" target="_blank" rel="noopener">joy</a>
+    </div>
+
+</div>
+<script>
+(function () {
+    var a = document.getElementById('set'), pp = document.getElementById('pp'),
+        t = document.getElementById('t'), bar = document.getElementById('bar');
+    function fmt(x) { x = Math.floor(x || 0); return (x / 60 | 0).toString().padStart(2, '0') + ':' + (x % 60).toString().padStart(2, '0'); }
+    function sync() { pp.textContent = a.paused ? '▶' : '❚❚'; pp.setAttribute('aria-label', a.paused ? 'play' : 'pause'); }
+    function start() { a.play().then(sync).catch(function () {}); }
+    var events = ['pointerdown', 'keydown', 'touchstart'];
+    function once() { events.forEach(function (e) { document.removeEventListener(e, once, true); }); if (a.paused) start(); }
+    a.play().then(sync).catch(function () {
+        events.forEach(function (e) { document.addEventListener(e, once, true); });
+    });
+    pp.addEventListener('click', function (e) { e.stopPropagation(); if (a.paused) start(); else { a.pause(); sync(); } });
+    a.addEventListener('play', sync); a.addEventListener('pause', sync);
+    a.addEventListener('timeupdate', function () {
+        t.textContent = fmt(a.currentTime);
+        if (a.duration) bar.style.width = (100 * a.currentTime / a.duration) + '%';
+    });
+})();
+</script>
+</body>
+</html>
