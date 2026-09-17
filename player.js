@@ -94,6 +94,12 @@
         t.textContent = fmt(a.currentTime); draw();
         if (Math.abs(a.currentTime - last) > 2) { last = a.currentTime; put('t', String(last)); }
     });
+    // some apps empty <body> before they mount (cyberstates does): come back if thrown out
+    var host = fab || (mount ? null : root.parentNode);
+    if (host && window.MutationObserver) {
+        new MutationObserver(function () { if (!host.isConnected && document.body) { document.body.appendChild(host); size(); } })
+            .observe(document.documentElement, { childList: true, subtree: true });
+    }
     window.addEventListener('resize', size);
     if (window.ResizeObserver) new ResizeObserver(function () { if (cv.clientWidth !== W) size(); }).observe(cv);
     if (fab) {
