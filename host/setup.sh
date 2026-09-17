@@ -25,6 +25,9 @@ if [ ! -d "$CLONE/.git" ]; then
   git clone --depth 1 -b main "$REPO" "$CLONE" || exit 1
 fi
 chmod 755 "$CLONE"
+# always bring the clone to the tip before copying anything out of it
+git -C "$CLONE" fetch origin main --quiet && git -C "$CLONE" reset --hard origin/main --quiet || exit 1
+echo "clone at $(git -C "$CLONE" rev-parse --short HEAD)"
 
 if [ ! -d "$DOCROOT" ]; then
   echo "no $DOCROOT on this host; the vhost for cyberia.to must point there"
@@ -48,12 +51,13 @@ rm -f "$TMP"
 rm -f /home/cyber/s.sh /home/cyber/setup.sh
 
 "$SYNC"
+chmod 644 "$DOCROOT/index.html" "$DOCROOT/atlas.shrugged.set.mp3"
 
 echo "--- crontab ---"
 crontab -l
 echo "--- docroot ---"
 ls -la "$DOCROOT"
-if crontab -l 2>/dev/null | grep -q cyberia-to-sync && [ -f "$DOCROOT/atlas.shrugged.set.mp3" ] && [ "$(stat -c %a "$WWW")" = "755" ]; then
+if crontab -l 2>/dev/null | grep -q cyberia-to-sync && [ -f "$DOCROOT/atlas.shrugged.set.mp3" ] && [ "$(stat -c %a "$WWW")" = "755" ] && [ "$(stat -c %a "$DOCROOT/index.html")" = "644" ] && grep -q rltp "$SYNC"; then
   echo "SETUP OK"
 else
   echo "SETUP FAILED"
