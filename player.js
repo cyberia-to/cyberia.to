@@ -1,9 +1,12 @@
 /* cyberia player — Atlas Shrugged, the set. one line to embed:
  *   <script src="https://cyberia.to/player.js" defer></script>
  * mounts into [data-cyberia-player] when the page has one, otherwise adds a fixed bar at the bottom.
+ * data-mode="fab" on the script tag: a round button bottom-right (data-bottom / data-right in px) that
+ * unfolds the panel on hover or tap — for pages whose header and bottom edge are already taken.
  * prysm content molecule, audio: button 6g, waveform media atom 4g (bars g/8, gap g/8), g = 8px. */
 (function () {
     if (window.__cyberiaPlayer) return; window.__cyberiaPlayer = true;
+    var cfg = (document.currentScript && document.currentScript.dataset) || {};
     var SRC = 'https://cyberia.to/atlas.shrugged.set.mp3';
     var CID = 'QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9';
     var WAVE = 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs';
@@ -19,6 +22,11 @@
         '.cybp canvas{display:block;width:100%;height:32px;cursor:pointer}' +
         '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#000;border-top:1px solid #1a1a24;padding:8px 16px;display:flex;justify-content:center}' +
         '.cybp-bar .cybp{max-width:780px}' +
+        '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:28px;padding:3px;display:flex}' +
+        '.cybp-fab .cybp{flex-direction:row-reverse;gap:0}' +
+        '.cybp-fab .cybp-body{flex:none;width:0;opacity:0;overflow:hidden;transition:width 150ms ease,opacity 150ms ease}' +
+        '.cybp-fab:hover .cybp-body,.cybp-fab.open .cybp-body{width:min(300px,calc(100vw - 96px));opacity:1;margin:0 8px 0 12px}' +
+        '.cybp-fab .cybp-dl span{display:none}' +
         '@media (max-width:560px){.cybp-dl span{display:none}}';
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -28,7 +36,13 @@
         '<span class="cybp-name">Atlas Shrugged — the set</span><span class="cybp-time"><span class="cybp-t">00:00</span> / 27:09</span>' +
         '<a class="cybp-dl" href="https://cyb.ai/ipfs/' + CID + '" target="_blank" rel="noopener"><span>download from </span>cyb.ai →</a>' +
         '</div><canvas height="32" aria-label="waveform, click to seek"></canvas></div>';
+    var fab = null;
     if (mount) { mount.appendChild(root); }
+    else if (cfg.mode === 'fab') {
+        fab = document.createElement('div'); fab.className = 'cybp-fab';
+        fab.style.right = (parseInt(cfg.right, 10) || 16) + 'px'; fab.style.bottom = (parseInt(cfg.bottom, 10) || 16) + 'px';
+        fab.appendChild(root); document.body.appendChild(fab);
+    }
     else { var bar = document.createElement('div'); bar.className = 'cybp-bar'; bar.appendChild(root); document.body.appendChild(bar);
            document.body.style.paddingBottom = (parseFloat(getComputedStyle(document.body).paddingBottom) || 0) + 64 + 'px'; }
 
@@ -80,5 +94,14 @@
         if (Math.abs(a.currentTime - last) > 2) { last = a.currentTime; put('t', String(last)); }
     });
     window.addEventListener('resize', size);
+    if (window.ResizeObserver) new ResizeObserver(function () { if (cv.clientWidth !== W) size(); }).observe(cv);
+    if (fab) {
+        var closer = 0;
+        fab.addEventListener('mouseenter', function () { setTimeout(size, 170); });
+        pp.addEventListener('click', function () {
+            fab.classList.add('open'); setTimeout(size, 170);
+            clearTimeout(closer); closer = setTimeout(function () { fab.classList.remove('open'); }, 4000);
+        });
+    }
     size();
 })();
