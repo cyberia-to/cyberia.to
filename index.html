@@ -44,7 +44,14 @@
         display: flex;
         align-items: center;
         gap: 12px;
+        flex: none;
+    }
+    .top {
+        display: flex;
+        align-items: center;
+        gap: 40px;
         margin-bottom: 64px;
+        flex-wrap: wrap;
     }
     .brand svg { width: 34px; height: 34px; }
     .brand .word { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
@@ -75,7 +82,8 @@
         align-items: center;
         gap: 8px;
         height: 48px;
-        margin-bottom: 64px;
+        flex: 1;
+        min-width: 0;
     }
     .player .pp {
         width: 48px; height: 48px; border-radius: 50%; flex: none;
@@ -157,7 +165,8 @@
 
     @media (max-width: 560px) {
         body { padding-top: 32px; }
-        .brand { margin-bottom: 44px; }
+        .top { margin-bottom: 44px; gap: 16px; }
+        .player { flex-basis: 100%; }
         .hero { margin-bottom: 52px; }
         .proj { flex-direction: column; gap: 3px; }
         .proj .domain { min-width: 0; }
@@ -168,18 +177,32 @@
 <body>
 <div class="wrap">
 
-    <div class="brand">
-        <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="26.25" r="10" fill="#00ff01"/>
-            <circle cx="68.57" cy="35.19" r="10" fill="#00b4ff"/>
-            <circle cx="73.15" cy="55.28" r="10" fill="#1700fe"/>
-            <circle cx="60.30" cy="71.40" r="10" fill="#6b00fe"/>
-            <circle cx="39.70" cy="71.40" r="10" fill="#fe0000"/>
-            <circle cx="26.85" cy="55.28" r="10" fill="#ff6501"/>
-            <circle cx="31.43" cy="35.19" r="10" fill="#ffc501"/>
-        </svg>
-        <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
+    <div class="top">
+        <div class="brand">
+            <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="26.25" r="10" fill="#00ff01"/>
+                <circle cx="68.57" cy="35.19" r="10" fill="#00b4ff"/>
+                <circle cx="73.15" cy="55.28" r="10" fill="#1700fe"/>
+                <circle cx="60.30" cy="71.40" r="10" fill="#6b00fe"/>
+                <circle cx="39.70" cy="71.40" r="10" fill="#fe0000"/>
+                <circle cx="26.85" cy="55.28" r="10" fill="#ff6501"/>
+                <circle cx="31.43" cy="35.19" r="10" fill="#ffc501"/>
+            </svg>
+            <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
+        </div>
+        <div class="player">
+            <button class="pp" id="pp" aria-label="play">▶</button>
+            <div class="body">
+                <div class="meta">
+                    <span class="name">Atlas Shrugged — the set</span>
+                    <span class="time"><span id="t">00:00</span> / 27:09</span>
+                    <a class="dl" href="https://cyb.ai/ipfs/QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9" target="_blank" rel="noopener"><span>download from </span>cyb.ai →</a>
+                </div>
+                <canvas id="wave" height="32" aria-label="waveform, click to seek" data-wave="bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs"></canvas>
+            </div>
+        </div>
     </div>
+    <audio id="set" src="atlas.shrugged.set.mp3" preload="auto" loop></audio>
 
     <div class="hero">
         <h1>Cyberstate<br />guided by <span class="g">superintelligence</span></h1>
@@ -190,19 +213,6 @@
         </p>
     </div>
 
-    <div class="sec">NOW PLAYING</div>
-    <div class="player">
-        <button class="pp" id="pp" aria-label="play">▶</button>
-        <div class="body">
-            <div class="meta">
-                <span class="name">Atlas Shrugged — the set</span>
-                <span class="time"><span id="t">00:00</span> / 27:09</span>
-                <a class="dl" href="https://cyb.ai/ipfs/QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9" target="_blank" rel="noopener"><span>download from </span>cyb.ai →</a>
-            </div>
-            <canvas id="wave" height="32" aria-label="waveform, click to seek" data-wave="bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs"></canvas>
-        </div>
-    </div>
-    <audio id="set" src="atlas.shrugged.set.mp3" preload="auto" loop></audio>
     <div class="sec">PROJECTS</div>
     <div class="projects">
         <a class="proj st-y" href="https://cyber.page" target="_blank" rel="noopener">
