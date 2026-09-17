@@ -76,36 +76,9 @@
     }
     .tagline b { color: #ccd; font-weight: 400; }
 
-    /* player — prysm content molecule, audio. g = 8px */
-    .player {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        height: 48px;
-        flex: 1;
-        min-width: 0;
-    }
-    .player .pp {
-        width: 48px; height: 48px; border-radius: 50%; flex: none;
-        border: 1px solid var(--green); background: transparent; color: var(--green);
-        font-family: 'Play', sans-serif; font-size: 16px; cursor: pointer;
-        transition: background 150ms ease, color 150ms ease;
-    }
-    .player .pp:hover { background: rgba(0, 255, 1, 0.08); }
-    .player .pp.on { background: var(--green); color: #000; }
-    .player .body { display: flex; flex-direction: column; flex: 1; min-width: 0; height: 48px; }
-    .player .meta {
-        display: flex; align-items: baseline; gap: 8px; height: 16px; line-height: 16px;
-        font-size: 13px; color: #889; white-space: nowrap; overflow: hidden;
-    }
-    .player .meta .name { color: #fff; font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
-    .player .meta .time { color: var(--green); font-variant-numeric: tabular-nums; }
-    .player .meta .dl { margin-left: auto; color: var(--cyan); text-decoration: none; }
-    .player .meta .dl:hover { color: #7fd4ff; }
-    .player canvas { display: block; width: 100%; height: 32px; cursor: pointer; }
-    @media (max-width: 560px) {
-        .player .meta .dl span { display: none; }
-    }
+    /* player slot — the molecule itself ships in player.js */
+    .player { display: flex; flex: 1; min-width: 0; }
+    @media (max-width: 560px) { .player { flex-basis: 100%; } }
     /* projects */
     .sec {
         font-size: 11px;
@@ -166,7 +139,6 @@
     @media (max-width: 560px) {
         body { padding-top: 32px; }
         .top { margin-bottom: 44px; gap: 16px; }
-        .player { flex-basis: 100%; }
         .hero { margin-bottom: 52px; }
         .proj { flex-direction: column; gap: 3px; }
         .proj .domain { min-width: 0; }
@@ -190,19 +162,8 @@
             </svg>
             <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
         </div>
-        <div class="player">
-            <button class="pp" id="pp" aria-label="play">▶</button>
-            <div class="body">
-                <div class="meta">
-                    <span class="name">Atlas Shrugged — the set</span>
-                    <span class="time"><span id="t">00:00</span> / 27:09</span>
-                    <a class="dl" href="https://cyb.ai/ipfs/QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9" target="_blank" rel="noopener"><span>download from </span>cyb.ai →</a>
-                </div>
-                <canvas id="wave" height="32" aria-label="waveform, click to seek" data-wave="bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs"></canvas>
-            </div>
-        </div>
+        <div class="player" data-cyberia-player></div>
     </div>
-    <audio id="set" src="atlas.shrugged.set.mp3" preload="auto" loop></audio>
 
     <div class="hero">
         <h1>Cyberstate<br />guided by <span class="g">superintelligence</span></h1>
@@ -288,46 +249,6 @@
     </div>
 
 </div>
-<script>
-(function () {
-    var a = document.getElementById('set'), pp = document.getElementById('pp'),
-        t = document.getElementById('t'), cv = document.getElementById('wave');
-    var G = 8, H = 4 * G, BAR = G / 8, GAP = G / 8;
-    var digits = '0123456789abcdefghijklmnopqrstuvwxyz';
-    var wave = cv.dataset.wave.split('').map(function (c) { return digits.indexOf(c) / 35; });
-    var ctx = cv.getContext('2d'), dpr = window.devicePixelRatio || 1, W = 0, bars = [];
-    function fmt(x) { x = Math.floor(x || 0); return (x / 60 | 0).toString().padStart(2, '0') + ':' + (x % 60).toString().padStart(2, '0'); }
-    function size() {
-        W = cv.clientWidth; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        var n = Math.floor(W / (BAR + GAP)); bars = [];
-        for (var i = 0; i < n; i++) {
-            var lo = Math.floor(i * wave.length / n), hi = Math.max(lo + 1, Math.floor((i + 1) * wave.length / n)), m = 0;
-            for (var j = lo; j < hi; j++) m = Math.max(m, wave[j]);
-            bars.push(m);
-        }
-        draw();
-    }
-    function draw() {
-        var p = a.duration ? a.currentTime / a.duration : 0, k = Math.floor(p * bars.length);
-        ctx.clearRect(0, 0, W, H);
-        for (var i = 0; i < bars.length; i++) {
-            var h = Math.max(1, Math.round(bars[i] * H));
-            ctx.fillStyle = i === k ? '#bfffbf' : i < k ? '#00ff01' : 'rgba(0,255,1,0.35)';
-            ctx.fillRect(i * (BAR + GAP), H - h, BAR, h);
-        }
-    }
-    function sync() { var on = !a.paused; pp.textContent = on ? '❚❚' : '▶'; pp.classList.toggle('on', on); pp.setAttribute('aria-label', on ? 'pause' : 'play'); }
-    function start() { a.play().then(sync).catch(function () {}); }
-    var events = ['pointerdown', 'keydown', 'touchstart'];
-    function once() { events.forEach(function (e) { document.removeEventListener(e, once, true); }); if (a.paused) start(); }
-    a.play().then(sync).catch(function () { events.forEach(function (e) { document.addEventListener(e, once, true); }); });
-    pp.addEventListener('click', function (e) { e.stopPropagation(); if (a.paused) start(); else { a.pause(); sync(); } });
-    cv.addEventListener('click', function (e) { if (a.duration) { a.currentTime = a.duration * (e.offsetX / W); draw(); } });
-    a.addEventListener('play', sync); a.addEventListener('pause', sync);
-    a.addEventListener('timeupdate', function () { t.textContent = fmt(a.currentTime); draw(); });
-    window.addEventListener('resize', size);
-    size();
-})();
-</script>
+<script src="player.js" defer></script>
 </body>
 </html>
