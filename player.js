@@ -3,7 +3,7 @@
  * mounts into [data-cyberia-player] when the page has one, otherwise adds a fixed bar at the bottom.
  * data-mode="fab" on the script tag: a round button bottom-right (data-bottom / data-right in px) that
  * unfolds the panel on hover or tap — for pages whose header and bottom edge are already taken.
- * prysm content molecule, audio, one line 4g tall: button 4g, name, time, waveform 4g (bars g/8, gap g/8), link. g = 8px. */
+ * prysm content molecule, audio, one line 3g tall: button 3g, name, time, waveform 3g (bars g/8, gap g/8), direct download. g = 8px. */
 (function () {
     if (window.__cyberiaPlayer) return; window.__cyberiaPlayer = true;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
@@ -11,18 +11,18 @@
     var SRC = 'https://cyberia.to/atlas.shrugged.set.mp3';
     var CID = 'QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9';
     var WAVE = 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs';
-    var css = '.cybp{display:flex;align-items:center;gap:8px;height:32px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
+    var css = '.cybp{display:flex;align-items:center;gap:8px;height:24px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
         '.cybp *{box-sizing:border-box}' +
-        '.cybp-pp{width:32px;height:32px;border-radius:50%;flex:none;border:1px solid #00ff01;background:transparent;color:#00ff01;font:12px Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
+        '.cybp-pp{width:24px;height:24px;border-radius:50%;flex:none;border:1px solid #00ff01;background:transparent;color:#00ff01;font:9px/1 Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
         '.cybp-pp:hover{background:rgba(0,255,1,.08)}.cybp-pp.on{background:#00ff01;color:#000}' +
-        '.cybp-body{display:flex;align-items:center;gap:8px;flex:1;min-width:0;height:32px}' +
-        '.cybp-name{color:#fff;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}' +
-        '.cybp-time{color:#00ff01;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}' +
-        '.cybp canvas{display:block;flex:1;min-width:48px;width:0;height:32px;cursor:pointer}' +
-        '.cybp-dl{color:#00b4ff;text-decoration:none;font-size:12px;white-space:nowrap;flex:none}.cybp-dl:hover{color:#7fd4ff}' +
+        '.cybp-body{display:flex;align-items:center;gap:8px;flex:1;min-width:0;height:24px}' +
+        '.cybp-name{color:#fff;font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}' +
+        '.cybp-time{color:#00ff01;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}' +
+        '.cybp canvas{display:block;flex:1;min-width:48px;width:0;height:24px;cursor:pointer}' +
+        '.cybp-dl{color:#00b4ff;text-decoration:none;font-size:11px;white-space:nowrap;flex:none}.cybp-dl:hover{color:#7fd4ff}' +
         '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#000;border-top:1px solid #1a1a24;padding:8px 16px;display:flex;justify-content:center}' +
         '.cybp-bar .cybp{max-width:780px}' +
-        '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:20px;padding:3px;display:flex}' +
+        '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:16px;padding:3px;display:flex}' +
         '.cybp-fab .cybp{flex-direction:row-reverse;gap:0}' +
         '.cybp-fab .cybp-body{flex:none;width:0;opacity:0;overflow:hidden;transition:width 150ms ease,opacity 150ms ease}' +
         '.cybp-fab:hover .cybp-body,.cybp-fab.open .cybp-body{width:min(360px,calc(100vw - 80px));opacity:1;margin:0 8px 0 12px}' +
@@ -34,8 +34,8 @@
     root.className = 'cybp';
     root.innerHTML = '<button class="cybp-pp" aria-label="play">\u25B6</button><div class="cybp-body">' +
         '<span class="cybp-name">Atlas Shrugged \u2014 the set</span><span class="cybp-time"><span class="cybp-t">00:00</span> / 27:09</span>' +
-        '<canvas height="32" aria-label="waveform, click to seek"></canvas>' +
-        '<a class="cybp-dl" href="https://cyb.ai/ipfs/' + CID + '" target="_blank" rel="noopener"><span>download from </span>cyb.ai \u2192</a></div>';
+        '<canvas height="24" aria-label="waveform, click to seek"></canvas>' +
+        '<a class="cybp-dl" href="' + SRC + '" download="atlas.shrugged.set.mp3" title="Atlas Shrugged \u2014 the set, mp3, 65 MB"><span>download </span>\u2193</a></div>';
     var fab = null;
     if (mount) { mount.appendChild(root); }
     else if (cfg.mode === 'fab') {
@@ -44,11 +44,11 @@
         fab.appendChild(root); document.body.appendChild(fab);
     }
     else { var bar = document.createElement('div'); bar.className = 'cybp-bar'; bar.appendChild(root); document.body.appendChild(bar);
-           document.body.style.paddingBottom = (parseFloat(getComputedStyle(document.body).paddingBottom) || 0) + 48 + 'px'; }
+           document.body.style.paddingBottom = (parseFloat(getComputedStyle(document.body).paddingBottom) || 0) + 40 + 'px'; }
 
     var a = new Audio(); a.src = SRC; a.preload = 'auto'; a.loop = true;
     var pp = root.querySelector('.cybp-pp'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
-    var G = 8, H = 4 * G, BAR = G / 8, GAP = G / 8, digits = '0123456789abcdefghijklmnopqrstuvwxyz';
+    var G = 8, H = 3 * G, BAR = G / 8, GAP = G / 8, digits = '0123456789abcdefghijklmnopqrstuvwxyz';
     var wave = WAVE.split('').map(function (c) { return digits.indexOf(c) / 35; });
     var ctx = cv.getContext('2d'), dpr = window.devicePixelRatio || 1, W = 0, bars = [];
     var LS = 'cyberia.player.';
