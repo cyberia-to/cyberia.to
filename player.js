@@ -3,7 +3,7 @@
  * mounts into [data-cyberia-player] when the page has one, otherwise adds a fixed bar at the bottom.
  * data-mode="fab" on the script tag: a round button bottom-right (data-bottom / data-right in px) that
  * unfolds the panel on hover or tap — for pages whose header and bottom edge are already taken.
- * prysm content molecule, audio: button 6g, waveform media atom 4g (bars g/8, gap g/8), g = 8px. */
+ * prysm content molecule, audio, one line 4g tall: button 4g, name, time, waveform 4g (bars g/8, gap g/8), link. g = 8px. */
 (function () {
     if (window.__cyberiaPlayer) return; window.__cyberiaPlayer = true;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
