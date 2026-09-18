@@ -1,6 +1,8 @@
 /* cyberia player — Atlas Shrugged, the set. one line to embed:
  *   <script src="https://cyberia.to/player.js" async></script>
  * mounts into [data-cyberia-player] when the page has one, otherwise adds a fixed bar at the bottom.
+ * data-download="/path/on/this/site.mp3": the download link points at the site's own copy, so the browser
+ * saves it in one click (cross-origin links open in a tab instead). streaming stays on cyberia.to.
  * data-mode="fab" on the script tag: a round button bottom-right (data-bottom / data-right in px) that
  * unfolds the panel on hover or tap — for pages whose header and bottom edge are already taken.
  * prysm content molecule, audio, one line 3g tall: button 3g, name, time, waveform 3g (bars g/8, gap g/8), direct download. g = 8px. */
@@ -35,7 +37,7 @@
     root.innerHTML = '<button class="cybp-pp" aria-label="play">\u25B6</button><div class="cybp-body">' +
         '<span class="cybp-name">Atlas Shrugged \u2014 the set</span><span class="cybp-time"><span class="cybp-t">00:00</span> / 27:09</span>' +
         '<canvas height="24" aria-label="waveform, click to seek"></canvas>' +
-        '<a class="cybp-dl" href="' + SRC + '" download="atlas.shrugged.set.mp3" title="Atlas Shrugged \u2014 the set, mp3, 65 MB"><span>download </span>\u2193</a></div>';
+        '<a class="cybp-dl" href="' + (cfg.download || SRC) + '" download="atlas.shrugged.set.mp3" title="Atlas Shrugged \u2014 the set, mp3, 65 MB"><span>download </span>\u2193</a></div>';
     var fab = null;
     if (mount) { mount.appendChild(root); }
     else if (cfg.mode === 'fab') {
