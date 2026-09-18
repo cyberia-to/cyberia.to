@@ -11,32 +11,31 @@
     var SRC = 'https://cyberia.to/atlas.shrugged.set.mp3';
     var CID = 'QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9';
     var WAVE = 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs';
-    var css = '.cybp{display:flex;align-items:center;gap:8px;height:48px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
+    var css = '.cybp{display:flex;align-items:center;gap:8px;height:32px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
         '.cybp *{box-sizing:border-box}' +
-        '.cybp-pp{width:48px;height:48px;border-radius:50%;flex:none;border:1px solid #00ff01;background:transparent;color:#00ff01;font:16px Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
+        '.cybp-pp{width:32px;height:32px;border-radius:50%;flex:none;border:1px solid #00ff01;background:transparent;color:#00ff01;font:12px Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
         '.cybp-pp:hover{background:rgba(0,255,1,.08)}.cybp-pp.on{background:#00ff01;color:#000}' +
-        '.cybp-body{display:flex;flex-direction:column;flex:1;min-width:0;height:48px}' +
-        '.cybp-meta{display:flex;align-items:baseline;gap:8px;height:16px;line-height:16px;font-size:13px;color:#889;white-space:nowrap;overflow:hidden}' +
-        '.cybp-name{color:#fff;font-weight:700;overflow:hidden;text-overflow:ellipsis}' +
-        '.cybp-time{color:#00ff01;font-variant-numeric:tabular-nums}' +
-        '.cybp-dl{margin-left:auto;color:#00b4ff;text-decoration:none}.cybp-dl:hover{color:#7fd4ff}' +
-        '.cybp canvas{display:block;width:100%;height:32px;cursor:pointer}' +
+        '.cybp-body{display:flex;align-items:center;gap:8px;flex:1;min-width:0;height:32px}' +
+        '.cybp-name{color:#fff;font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}' +
+        '.cybp-time{color:#00ff01;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}' +
+        '.cybp canvas{display:block;flex:1;min-width:48px;width:0;height:32px;cursor:pointer}' +
+        '.cybp-dl{color:#00b4ff;text-decoration:none;font-size:12px;white-space:nowrap;flex:none}.cybp-dl:hover{color:#7fd4ff}' +
         '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#000;border-top:1px solid #1a1a24;padding:8px 16px;display:flex;justify-content:center}' +
         '.cybp-bar .cybp{max-width:780px}' +
-        '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:28px;padding:3px;display:flex}' +
+        '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:20px;padding:3px;display:flex}' +
         '.cybp-fab .cybp{flex-direction:row-reverse;gap:0}' +
         '.cybp-fab .cybp-body{flex:none;width:0;opacity:0;overflow:hidden;transition:width 150ms ease,opacity 150ms ease}' +
-        '.cybp-fab:hover .cybp-body,.cybp-fab.open .cybp-body{width:min(300px,calc(100vw - 96px));opacity:1;margin:0 8px 0 12px}' +
+        '.cybp-fab:hover .cybp-body,.cybp-fab.open .cybp-body{width:min(360px,calc(100vw - 80px));opacity:1;margin:0 8px 0 12px}' +
         '.cybp-fab .cybp-dl span{display:none}' +
-        '@media (max-width:560px){.cybp-dl span{display:none}}';
+        '@media (max-width:560px){.cybp-dl span{display:none}.cybp-name{display:none}}';
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
     var mount = document.querySelector('[data-cyberia-player]'), root = document.createElement('div');
     root.className = 'cybp';
-    root.innerHTML = '<button class="cybp-pp" aria-label="play">▶</button><div class="cybp-body"><div class="cybp-meta">' +
-        '<span class="cybp-name">Atlas Shrugged — the set</span><span class="cybp-time"><span class="cybp-t">00:00</span> / 27:09</span>' +
-        '<a class="cybp-dl" href="https://cyb.ai/ipfs/' + CID + '" target="_blank" rel="noopener"><span>download from </span>cyb.ai →</a>' +
-        '</div><canvas height="32" aria-label="waveform, click to seek"></canvas></div>';
+    root.innerHTML = '<button class="cybp-pp" aria-label="play">\u25B6</button><div class="cybp-body">' +
+        '<span class="cybp-name">Atlas Shrugged \u2014 the set</span><span class="cybp-time"><span class="cybp-t">00:00</span> / 27:09</span>' +
+        '<canvas height="32" aria-label="waveform, click to seek"></canvas>' +
+        '<a class="cybp-dl" href="https://cyb.ai/ipfs/' + CID + '" target="_blank" rel="noopener"><span>download from </span>cyb.ai \u2192</a></div>';
     var fab = null;
     if (mount) { mount.appendChild(root); }
     else if (cfg.mode === 'fab') {
@@ -45,7 +44,7 @@
         fab.appendChild(root); document.body.appendChild(fab);
     }
     else { var bar = document.createElement('div'); bar.className = 'cybp-bar'; bar.appendChild(root); document.body.appendChild(bar);
-           document.body.style.paddingBottom = (parseFloat(getComputedStyle(document.body).paddingBottom) || 0) + 64 + 'px'; }
+           document.body.style.paddingBottom = (parseFloat(getComputedStyle(document.body).paddingBottom) || 0) + 48 + 'px'; }
 
     var a = new Audio(); a.src = SRC; a.preload = 'auto'; a.loop = true;
     var pp = root.querySelector('.cybp-pp'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
