@@ -18,7 +18,7 @@ fi
 # -rlt, not -a: never carry the clone's modes or owner onto the docroot.
 # --chmod fixes what nginx needs. no --delete: the docroot may hold other files.
 rsync -rltp --chmod=D755,F644 --exclude=.git --exclude=host --exclude=README.md "$CLONE/" "$DOCROOT/"
-chmod 644 "$DOCROOT/index.html" "$DOCROOT/atlas.shrugged.set.mp3" 2>/dev/null
+chmod 644 "$DOCROOT"/*.html "$DOCROOT"/*.mp3 "$DOCROOT"/*.js "$DOCROOT"/*.css 2>/dev/null
 
 # keep the cron copy of this script current with the repo
 SELF=/home/cyber/cyberia-to-sync.sh
