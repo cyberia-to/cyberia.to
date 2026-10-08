@@ -46,7 +46,7 @@ body {
 .wrap { width: 100%; max-width: 780px; }
 
 /* page: three tiers; 41px is the anthem bar player.js adds at the bottom */
-.page { min-height: calc(100svh - 88px - 41px); display: flex; flex-direction: column; }
+.page { min-height: calc(100svh - 88px - var(--cybp-bar, 76px)); display: flex; flex-direction: column; } /* the anthem bar sets --cybp-bar */
 
 /* the brand is the flag and the name, and it leads home */
 .top { display: flex; align-items: center; justify-content: center; }
@@ -137,7 +137,7 @@ h1 .g { color: var(--green); }
 
 @media (max-width: 600px) {
     body { padding: 20px 16px 24px; }
-    .page { min-height: calc(100svh - 44px - 41px); }
+    .page { min-height: calc(100svh - 44px - var(--cybp-bar, 58px)); }
     .brand svg { width: 52px; }
     .brand .word { font-size: 26px; }
     .hero { padding: 24px 0; }

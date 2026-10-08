@@ -7,7 +7,7 @@
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
  * gets its own player, no autoplay. one plays at a time. position persists per track per origin across
  * visits; a deliberate pause persists for the tab's session only, so every new visit plays.
- * prysm content molecule, audio, one line 4g tall: button 4g, name, time, waveform 4g (bars g/8, gap g/8), a 4g square download. g = 8px. */
+ * prysm content molecule, audio, one line 6g tall: play 6g, name, time, waveform 6g (bars g/8, gap g/8), download 6g, the two round. g = 8px. */
 (function () {
     if (window.cyberiaPlayer) return;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
@@ -18,24 +18,24 @@
         anthem: { src: 'https://cyberia.to/cyberia.calling.mp3', name: 'Cyberia Calling \u2014 Anthem', dur: '03:23', file: 'cyberia.calling.mp3', title: 'Cyberia Calling \u2014 Anthem, mp3, 5 MB',
                   wave: '123445584466665455687888787baa88765658bcfmnlikjkjnpqrnrqroljppoomnmnplhhjmlhhdcbb999854e84666a8754ca9aa87443gjigdd974777ffbbbcc8glqqiihggha9fokihgiabbcaqqljgdb9fa8e97677bdggfhfcdihhgkjeeijijilnlpsrjohipihiloqlehmlnmrqmliegggghgqpplioqpqnqlefiocefgkqkjehidogcqmhklimhigkghgggehjhffedeeikfgdefjijkkkljorpoljojjijppijkljkpiqrkljjqljhhtnkikmmqqprsmkmlnqqosrlmkjkiinlpijihfgijimlnmoqpqquunebgaf6mrqmfkaefclpqqd9efacdejnfdcbbbbjlnghgjjgjhilflfhkhkihljkjnllkjlninlksuvxyzqqnpsqprquolnmpnmlrsqoprqpposstrrsssuwxywutsvsrqpuvssrsutqntuuurrsssoqpvqnmlkjade9987756876756645454555546565464223233376437gdegcbcc8543' }
     };
-    var css = '.cybp{display:flex;align-items:center;gap:12px;height:32px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
+    var css = '.cybp{display:flex;align-items:center;gap:16px;height:48px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
         '.cybp *{box-sizing:border-box}' +
-        '.cybp-pp{width:32px;height:32px;border-radius:50%;flex:none;border:1.5px solid #00ff01;background:transparent;color:#00ff01;font:12px/1 Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
+        '.cybp-pp{width:48px;height:48px;border-radius:50%;flex:none;border:2px solid #00ff01;background:transparent;color:#00ff01;font:18px/1 Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
         '.cybp-pp:hover{background:rgba(0,255,1,.08)}.cybp-pp.on{background:#00ff01;color:#000}' +
-        '.cybp-body{display:flex;align-items:center;gap:10px;flex:1;min-width:0;height:32px}' +
-        '.cybp-name{color:#fff;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}' +
-        '.cybp-time{color:#00ff01;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}' +
-        '.cybp canvas{display:block;flex:1;min-width:48px;width:0;height:32px;cursor:pointer}' +
-        '.cybp-dl{width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid #1a1a24;border-radius:6px;color:#00b4ff;text-decoration:none;transition:border-color 150ms ease,color 150ms ease,background 150ms ease}' +
-        '.cybp-dl svg{width:16px;height:16px}.cybp-dl:hover{color:#7fd4ff;border-color:#00b4ff;background:rgba(0,180,255,.08)}' +
-        '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#000;padding:10px 16px 12px;display:flex;justify-content:center}' +
+        '.cybp-body{display:flex;align-items:center;gap:14px;flex:1;min-width:0;height:48px}' +
+        '.cybp-name{color:#fff;font-weight:700;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}' +
+        '.cybp-time{color:#00ff01;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}' +
+        '.cybp canvas{display:block;flex:1;min-width:48px;width:0;height:48px;cursor:pointer}' +
+        '.cybp-dl{width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;border:2px solid #00b4ff;border-radius:50%;color:#00b4ff;text-decoration:none;transition:background 150ms ease,color 150ms ease}' +
+        '.cybp-dl svg{width:22px;height:22px}.cybp-dl:hover{background:rgba(0,180,255,.1)}.cybp-dl:active{background:#00b4ff;color:#000}' +
+        '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#000;padding:12px 16px 16px;display:flex;justify-content:center}' +
         '.cybp-bar .cybp{max-width:780px}' +
         '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:16px;padding:3px;display:flex}' +
         '.cybp-fab .cybp{flex-direction:row-reverse;gap:0}' +
         '.cybp-fab .cybp-body{flex:none;width:0;opacity:0;overflow:hidden;transition:width 150ms ease,opacity 150ms ease}' +
         '.cybp-fab:hover .cybp-body,.cybp-fab.open .cybp-body{width:min(360px,calc(100vw - 80px));opacity:1;margin:0 8px 0 12px}' +
         '[data-cyberia-track]{display:flex;min-width:0}' +
-        '@media (max-width:560px){.cybp-name{display:none}}';
+        '@media (max-width:560px){.cybp-name{display:none}.cybp,.cybp-body,.cybp canvas{height:40px}.cybp-pp,.cybp-dl{width:40px;height:40px}.cybp-pp{font-size:15px}.cybp-dl svg{width:18px;height:18px}.cybp-time{font-size:13px}.cybp-bar{padding:8px 12px 10px}}';
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
     var players = [], digits = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -61,7 +61,7 @@
             '<a class="cybp-dl" href="' + (o.download || src) + '" download="' + file + '" title="' + title + '" aria-label="download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M4 19h16"/></svg></a></div>';
         var a = new Audio(); a.src = src; a.preload = 'auto'; a.loop = true;
         var pp = root.querySelector('.cybp-pp'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
-        var G = 8, H = 4 * G, BAR = G / 8, GAP = G / 8;
+        var G = 8, H = 6 * G, BAR = G / 8, GAP = G / 8;
         var ctx = cv.getContext('2d'), dpr = window.devicePixelRatio || 1, W = 0, bars = [];
         var me = { root: root, audio: a, size: size, file: file };
         function size() {
@@ -138,7 +138,10 @@
             fab.appendChild(root); document.body.appendChild(fab); host = fab;
         }
         else { var bar = document.createElement('div'); bar.className = 'cybp-bar'; bar.appendChild(root); document.body.appendChild(bar); host = bar;
-               document.body.style.paddingBottom = (parseFloat(getComputedStyle(document.body).paddingBottom) || 0) + 54 + 'px'; }
+               // the page learns the bar's height: body padding below it, and --cybp-bar for any layout that wants to fit above it
+               var pad = parseFloat(getComputedStyle(document.body).paddingBottom) || 0;
+               function fit() { var hgt = bar.offsetHeight; document.body.style.paddingBottom = pad + hgt + 'px'; document.documentElement.style.setProperty('--cybp-bar', hgt + 'px'); }
+               fit(); window.addEventListener('resize', fit); }
         // some apps empty <body> before they mount (cyberstates does): come back if thrown out
         if (host && window.MutationObserver) {
             new MutationObserver(function () { if (!host.isConnected && document.body) { document.body.appendChild(host); primary.size(); } })
