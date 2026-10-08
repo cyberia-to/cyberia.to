@@ -127,18 +127,22 @@ h1 { overflow-wrap: anywhere; }
     .bottom { gap: 20px; }
 }
 
-/* tiles: where cyberia lives on the web — each with its own mark */
-.tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-.tile { flex: 0 0 calc(20% - 8px); display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 16px 6px 13px; border: 1px solid var(--line); border-radius: 12px; background: #050508; text-decoration: none; transition: border-color 0.18s, background 0.18s, transform 0.18s, box-shadow 0.18s; }
-.tile .ico { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; overflow: visible; }
+/* tiles: where cyberia lives on the web — three by three, the mark beside the words on a desk, above them on a phone */
+.tiles { display: flex; flex-wrap: wrap; gap: 10px; }
+.tile { flex: 0 0 calc(33.333% - 7px); display: flex; flex-direction: row; align-items: center; gap: 14px; padding: 13px 16px; border: 1px solid var(--line); border-radius: 12px; background: #050508; text-decoration: none; transition: border-color 0.18s, background 0.18s, transform 0.18s, box-shadow 0.18s; }
+.tile .ico { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex: none; overflow: visible; }
 .tile .ico svg, .tile .ico img { width: 40px; height: 40px; display: block; filter: saturate(0.9); transition: filter 0.18s, transform 0.18s; }
 .tile .ico img { width: 56px; height: 56px; max-width: none; }
 .tile .ico.flat svg { width: 32px; height: 32px; }
-.tile .dom { font-size: 11px; color: #ccd; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.tile .txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tile .dom { font-size: 13px; color: #ccd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tile .lab { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); }
 .tile:hover { border-color: #2a2a3a; background: #0a0a10; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); }
 .tile:hover .ico svg, .tile:hover .ico img { filter: saturate(1.15) drop-shadow(0 0 6px rgba(255, 255, 255, 0.12)); transform: scale(1.1); }
 .tile:hover .dom { color: #fff; }
 .tile:hover .lab { color: #99a; }
-@media (max-width: 600px) { .tile { flex-basis: calc(33.333% - 7px); } }
-@media (max-width: 340px) { .tile { flex-basis: calc(50% - 5px); } }
+@media (max-width: 600px) {
+    .tile { flex-direction: column; gap: 7px; padding: 16px 6px 13px; }
+    .tile .txt { align-items: center; }
+    .tile .dom { font-size: 11px; max-width: 100%; }
+}
