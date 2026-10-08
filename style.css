@@ -82,19 +82,6 @@ h1 .g { color: var(--green); }
 .proj .arr { margin-left: auto; color: #334; font-size: 14px; }
 .proj:hover .arr { color: var(--green); }
 
-/* footer */
-.foot {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    font-size: 13px;
-    color: var(--dim);
-}
-.foot a { color: var(--cyan); text-decoration: none; }
-.foot a:hover { color: #7fd4ff; }
-.foot .flag { font-size: 15px; }
-.dot { color: #223; }
 
 @media (max-width: 560px) {
     body { padding-top: 32px; }
@@ -145,3 +132,16 @@ h1 { overflow-wrap: anywhere; }
     .hero { padding: 40px 0; }
     .bottom { gap: 20px; }
 }
+
+/* tiles: where cyberia lives on the web */
+.tiles { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+.tile { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 6px 12px; border: 1px solid var(--line); border-radius: 10px; text-decoration: none; color: #99a; transition: border-color 0.15s, color 0.15s, background 0.15s, transform 0.15s; }
+.tile svg { width: 26px; height: 26px; color: #778; transition: color 0.15s, transform 0.15s; }
+.tile .dom { font-size: 11px; color: #ccd; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.tile .lab { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); }
+.tile:hover { border-color: var(--c); color: var(--c); background: color-mix(in srgb, var(--c) 6%, #000); transform: translateY(-2px); }
+.tile:hover svg { color: var(--c); transform: scale(1.08); }
+.tile:hover .dom { color: #fff; }
+.tile:hover .lab { color: var(--c); }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 360px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
