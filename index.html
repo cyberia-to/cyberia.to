@@ -30,7 +30,7 @@
 <div class="wrap page">
 
     <header class="top">
-        <a class="brand" href="/" aria-label="cyberia, home">
+        <div class="brand">
             <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the flag of cyberia: seven circles in a heptagon">
                 <circle cx="50" cy="26.25" r="10" fill="#00ff01"/>
                 <circle cx="68.57" cy="35.19" r="10" fill="#00b4ff"/>
@@ -41,7 +41,7 @@
                 <circle cx="31.43" cy="35.19" r="10" fill="#ffc501"/>
             </svg>
             <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
-        </a>
+        </div>
     </header>
 
     <main class="hero">
@@ -69,5 +69,34 @@
 
 </div>
 <script src="/player.js" async data-track="anthem"></script>
+<script>
+/* the thesis types itself for a visitor; the text is in the html for everyone else and for those who ask for stillness */
+(function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var parts = [].slice.call(document.querySelectorAll('.hero h1, .hero .tagline'));
+    function nodes(el, out) { el.childNodes.forEach(function (n) { if (n.nodeType === 3) { if (n.textContent.trim()) out.push(n); } else if (n.nodeName !== 'BR') nodes(n, out); }); return out; }
+    var queue = [];
+    parts.forEach(function (el) {
+        el.style.minHeight = el.getBoundingClientRect().height + 'px';
+        nodes(el, []).forEach(function (n) {
+            var text = n.textContent.replace(/\s+/g, ' ').trim(), span = document.createElement('span');
+            n.parentNode.replaceChild(span, n);
+            queue.push({ span: span, text: text, pace: el.tagName === 'H1' ? 55 : 14 });
+        });
+    });
+    var cursor = document.createElement('span'); cursor.className = 'caret'; cursor.textContent = '\u258D';
+    var i = 0, j = 0;
+    function step() {
+        if (i >= queue.length) { cursor.remove(); return; }
+        var q = queue[i];
+        if (j === 0) q.span.appendChild(cursor);
+        if (j < q.text.length) {
+            var ch = q.text.charAt(j++); q.span.insertBefore(document.createTextNode(ch), cursor);
+            setTimeout(step, ch === ' ' ? q.pace * 1.6 : q.pace + Math.random() * q.pace * 0.6);
+        } else { i++; j = 0; setTimeout(step, 260); }
+    }
+    setTimeout(step, 400);
+})();
+</script>
 </body>
 </html>

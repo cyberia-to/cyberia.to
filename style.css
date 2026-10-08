@@ -23,8 +23,8 @@ body {
 .page { min-height: calc(100svh - 88px - 41px); display: flex; flex-direction: column; }
 
 /* the brand is the flag and the name, and it leads home */
-.top { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.brand { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); text-decoration: none; }
+.top { display: flex; align-items: center; justify-content: center; }
+.brand { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); }
 .brand svg { width: clamp(64px, 11vw, 104px); height: auto; flex: none; }
 .brand .word { font-size: clamp(30px, 5.6vw, 58px); font-weight: 700; letter-spacing: 1px; line-height: 1; color: #fff; }
 .brand .word b { color: var(--green); font-weight: 700; }
@@ -48,6 +48,8 @@ h1 .g { color: var(--green); }
     line-height: 1.55;
 }
 .tagline b { color: #ccd; font-weight: 400; }
+.caret { color: var(--green); font-weight: 400; animation: caret 0.9s steps(2, end) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
 
 /* the bottom tier: the tiles; the anthem bar is fixed below them */
 .bottom { margin-top: auto; }
