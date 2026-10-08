@@ -128,8 +128,8 @@ h1 { overflow-wrap: anywhere; }
 }
 
 /* tiles: where cyberia lives on the web — each with its own mark */
-.tiles { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
-.tile { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 16px 6px 13px; border: 1px solid var(--line); border-radius: 12px; background: #050508; text-decoration: none; transition: border-color 0.18s, background 0.18s, transform 0.18s, box-shadow 0.18s; }
+.tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.tile { flex: 0 0 calc(20% - 8px); display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 16px 6px 13px; border: 1px solid var(--line); border-radius: 12px; background: #050508; text-decoration: none; transition: border-color 0.18s, background 0.18s, transform 0.18s, box-shadow 0.18s; }
 .tile .ico { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; }
 .tile .ico svg, .tile .ico img { width: 36px; height: 36px; display: block; filter: saturate(0.85); transition: filter 0.18s, transform 0.18s; }
 .tile .dom { font-size: 11px; color: #ccd; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
@@ -138,5 +138,5 @@ h1 { overflow-wrap: anywhere; }
 .tile:hover .ico svg, .tile:hover .ico img { filter: saturate(1.15) drop-shadow(0 0 6px rgba(255, 255, 255, 0.12)); transform: scale(1.1); }
 .tile:hover .dom { color: #fff; }
 .tile:hover .lab { color: #99a; }
-@media (max-width: 900px) { .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 360px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .tile { flex-basis: calc(33.333% - 7px); } }
+@media (max-width: 340px) { .tile { flex-basis: calc(50% - 5px); } }
