@@ -5,8 +5,8 @@
  * data-track="anthem" or "set" names a track cyberia.to carries (the set by default); data-src, data-name, data-dur,
  * data-file, data-title, data-wave describe any other; data-download points the download link at the embedding site's own copy.
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
- * gets its own player, no autoplay. one plays at a time. position and a deliberate pause persist per
- * track per origin, and survive reloads.
+ * gets its own player, no autoplay. one plays at a time. position persists per track per origin across
+ * visits; a deliberate pause persists for the tab's session only, so every new visit plays.
  * prysm content molecule, audio, one line 3g tall: button 3g, name, time, waveform 3g (bars g/8, gap g/8), a 3g square download. g = 8px. */
 (function () {
     if (window.cyberiaPlayer) return;
@@ -39,8 +39,10 @@
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
     var players = [], digits = '0123456789abcdefghijklmnopqrstuvwxyz';
-    function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-    function put(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    // position lives across visits; a deliberate pause lives for the tab's session only — a new visit plays again
+    function store(k) { return k.slice(-6) === 'paused' ? sessionStorage : localStorage; }
+    function get(k) { try { return store(k).getItem(k); } catch (e) { return null; } }
+    function put(k, v) { try { store(k).setItem(k, v); } catch (e) {} }
     function fmt(x) { x = Math.floor(x || 0); return (x / 60 | 0).toString().padStart(2, '0') + ':' + (x % 60).toString().padStart(2, '0'); }
     function abs(u) { try { return new URL(u, location.href).href; } catch (e) { return u; } }
 
