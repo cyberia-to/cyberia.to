@@ -21,11 +21,11 @@
 <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-<div class="wrap">
+<div class="wrap page">
 
-    <div class="top">
-        <div class="brand">
-            <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the flag of cyberia: seven circles in a heptagon">
+    <header class="top">
+        <a class="brand" href="/" aria-label="cyberia, home">
+            <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the flag of cyberia">
                 <circle cx="50" cy="26.25" r="10" fill="#00ff01"/>
                 <circle cx="68.57" cy="35.19" r="10" fill="#00b4ff"/>
                 <circle cx="73.15" cy="55.28" r="10" fill="#1700fe"/>
@@ -35,14 +35,14 @@
                 <circle cx="31.43" cy="35.19" r="10" fill="#ffc501"/>
             </svg>
             <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
-        </div>
+        </a>
         <nav class="tabs">
-            <a href="/">cyberia</a>
             <a href="/projects/" class="on">projects</a>
         </nav>
-    </div>
+    </header>
 
-    <div class="sec">PROJECTS</div>
+    <main class="list">
+        <div class="sec">PROJECTS</div>
     <div class="projects">
         <a class="proj st-y" href="https://cyber.page" target="_blank" rel="noopener">
             <span class="domain">cyber.page</span>
@@ -106,21 +106,24 @@
         </a>
     </div>
 
-    <div class="sec" id="set">THE SET</div>
-    <div class="track">
-        <div class="player" data-cyberia-player></div>
-        <p class="caption"><b>Atlas Shrugged — the set</b> · eight renders of the anthem joined into one · 27:09 · <a href="https://x.com/st_joy" target="_blank" rel="noopener">st_joy</a>, 2026 · the anthem itself plays on the <a href="/">front page</a> · particle <code>QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9</code></p>
-    </div>
+        <div class="sec" id="set">THE SET</div>
+        <div class="track">
+            <div class="player" data-cyberia-player></div>
+            <p class="caption"><b>Atlas Shrugged — the set</b> · eight renders joined into one · 27:09 · <a href="https://x.com/st_joy" target="_blank" rel="noopener">st_joy</a>, 2026 · particle <code>QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9</code></p>
+        </div>
+    </main>
 
-    <div class="foot">
-        <span class="flag">🏴</span>
-        <a href="https://x.com/cyberiacap" target="_blank" rel="noopener">@cyberiacap</a>
-        <span class="dot">·</span>
-        <span>founders</span>
-        <a href="https://x.com/mastercyb" target="_blank" rel="noopener">mastercyb</a>
-        <span>&amp;</span>
-        <a href="https://x.com/st_joy" target="_blank" rel="noopener">joy</a>
-    </div>
+    <footer class="bottom">
+        <div class="foot">
+            <span class="flag">🏴</span>
+            <a href="https://x.com/cyberiacap" target="_blank" rel="noopener">@cyberiacap</a>
+            <span class="dot">·</span>
+            <span>founders</span>
+            <a href="https://x.com/mastercyb" target="_blank" rel="noopener">mastercyb</a>
+            <span>&amp;</span>
+            <a href="https://x.com/st_joy" target="_blank" rel="noopener">joy</a>
+        </div>
+    </footer>
 
 </div>
 <script src="/player.js" async></script>

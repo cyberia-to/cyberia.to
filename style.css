@@ -18,29 +18,10 @@ body {
 }
 .wrap { width: 100%; max-width: 780px; }
 
-/* header */
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex: none;
-}
-.top {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    margin-bottom: 64px;
-    flex-wrap: wrap;
-}
-.brand svg { width: 34px; height: 34px; }
-.brand .word { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
-.brand .word b { color: var(--green); font-weight: 700; }
-.brand .word i { color: #fff; font-style: normal; }
-
 /* hero */
 .hero { margin-bottom: 72px; }
 h1 {
-    font-size: clamp(38px, 8vw, 72px);
+    font-size: clamp(28px, 8vw, 72px);
     line-height: 1.02;
     color: #fff;
     letter-spacing: -1px;
@@ -123,28 +104,42 @@ h1 .g { color: var(--green); }
     .proj .domain { min-width: 0; }
     .proj .arr { display: none; }
 }
-/* nav tabs */
-.tabs { margin-left: auto; display: flex; gap: 18px; font-size: 13px; letter-spacing: 1px; }
+/* page: flag on top, the thesis in the middle, the anthem at the bottom */
+.page { min-height: calc(100svh - 88px); display: flex; flex-direction: column; }
+
+/* header: the brand is the flag and the name, and it leads home */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 0; }
+.brand { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); text-decoration: none; }
+.brand svg { width: clamp(64px, 11vw, 104px); height: auto; flex: none; }
+.brand .word { font-size: clamp(30px, 5.6vw, 58px); font-weight: 700; letter-spacing: 1px; line-height: 1; color: #fff; }
+.brand .word b { color: var(--green); font-weight: 700; }
+.brand .word i { color: #fff; font-style: normal; }
+.tabs { display: flex; gap: 18px; font-size: 13px; letter-spacing: 2px; }
 .tabs a { color: var(--dim); text-decoration: none; }
 .tabs a:hover { color: #ccd; }
 .tabs a.on { color: var(--green); }
-.top { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 64px; }
-.brand { margin-bottom: 0; }
 
-/* symbols */
-.symbols { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; margin-bottom: 64px; }
-.symbols svg { width: clamp(160px, 28vw, 220px); height: auto; flex: none; }
-.symbols .mark { font-size: clamp(44px, 9vw, 76px); font-weight: 700; letter-spacing: 1px; line-height: 1; color: #fff; }
-.symbols .mark b { color: var(--green); font-weight: 700; }
-.symbols .mark i { color: #fff; font-style: normal; }
-.symbols .meaning { font-size: clamp(13px, 2.2vw, 15px); color: #889; line-height: 1.5; max-width: 420px; margin-top: 14px; }
+/* hero in the middle of the screen */
+.hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 56px 0; margin-bottom: 0; }
+h1 { overflow-wrap: anywhere; }
 
-/* anthem and set */
-.track { margin-bottom: 64px; }
+/* bottom: the anthem, then the footer line */
+.bottom { margin-top: auto; display: flex; flex-direction: column; gap: 28px; }
+.bottom .player { display: flex; min-width: 0; }
+
+/* projects page keeps the list between header and footer */
+.list { padding: 56px 0 24px; }
+.track { margin: 0 0 48px; }
 .track .player { display: flex; min-width: 0; margin-bottom: 10px; }
 .track .caption { font-size: clamp(13px, 2.2vw, 15px); color: #889; line-height: 1.5; }
 .track .caption b { color: #ccd; font-weight: 400; }
 .track .caption a { color: var(--cyan); text-decoration: none; }
 .track .caption a:hover { color: #7fd4ff; }
 .track .caption code { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #667; word-break: break-all; }
-@media (max-width: 560px) { .symbols { gap: 24px; } .tabs { margin-left: 0; } }
+
+@media (max-width: 560px) {
+    body { padding: 24px 16px 28px; }
+    .page { min-height: calc(100svh - 52px); }
+    .hero { padding: 40px 0; }
+    .bottom { gap: 20px; }
+}
