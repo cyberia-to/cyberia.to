@@ -7,7 +7,7 @@
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
  * gets its own player, no autoplay. one plays at a time. position and a deliberate pause persist per
  * track per origin, and survive page swaps (site.js) and reloads.
- * prysm content molecule, audio, one line 3g tall: button 3g, name, time, waveform 3g (bars g/8, gap g/8). g = 8px. */
+ * prysm content molecule, audio, one line 3g tall: button 3g, name, time, waveform 3g (bars g/8, gap g/8), a 3g square download. g = 8px. */
 (function () {
     if (window.cyberiaPlayer) return;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
@@ -21,16 +21,16 @@
         '.cybp-name{color:#fff;font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}' +
         '.cybp-time{color:#00ff01;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}' +
         '.cybp canvas{display:block;flex:1;min-width:48px;width:0;height:24px;cursor:pointer}' +
-        '.cybp-dl{color:#00b4ff;text-decoration:none;font-size:11px;white-space:nowrap;flex:none}.cybp-dl:hover{color:#7fd4ff}' +
+        '.cybp-dl{width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid #1a1a24;border-radius:6px;color:#00b4ff;text-decoration:none;transition:border-color 150ms ease,color 150ms ease,background 150ms ease}' +
+        '.cybp-dl svg{width:14px;height:14px}.cybp-dl:hover{color:#7fd4ff;border-color:#00b4ff;background:rgba(0,180,255,.08)}' +
         '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#000;border-top:1px solid #1a1a24;padding:8px 16px;display:flex;justify-content:center}' +
         '.cybp-bar .cybp{max-width:780px}' +
         '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:16px;padding:3px;display:flex}' +
         '.cybp-fab .cybp{flex-direction:row-reverse;gap:0}' +
         '.cybp-fab .cybp-body{flex:none;width:0;opacity:0;overflow:hidden;transition:width 150ms ease,opacity 150ms ease}' +
         '.cybp-fab:hover .cybp-body,.cybp-fab.open .cybp-body{width:min(360px,calc(100vw - 80px));opacity:1;margin:0 8px 0 12px}' +
-        '.cybp-fab .cybp-dl span{display:none}' +
         '[data-cyberia-track]{display:flex;min-width:0}' +
-        '@media (max-width:560px){.cybp-dl span{display:none}.cybp-name{display:none}}';
+        '@media (max-width:560px){.cybp-name{display:none}}';
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
     var players = [], digits = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -52,7 +52,7 @@
         root.innerHTML = '<button class="cybp-pp" aria-label="play">▶</button><div class="cybp-body">' +
             '<span class="cybp-name">' + name + '</span><span class="cybp-time"><span class="cybp-t">00:00</span> / ' + dur + '</span>' +
             '<canvas height="24" aria-label="waveform, click to seek"></canvas>' +
-            '<a class="cybp-dl" href="' + (opts.download || src) + '" download="' + file + '" title="' + title + '"><span>download </span>↓</a></div>';
+            '<a class="cybp-dl" href="' + (opts.download || src) + '" download="' + file + '" title="' + title + '" aria-label="download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M4 19h16"/></svg></a></div>';
         var a = new Audio(); a.src = src; a.preload = 'auto'; a.loop = true;
         var pp = root.querySelector('.cybp-pp'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
         var G = 8, H = 3 * G, BAR = G / 8, GAP = G / 8;
