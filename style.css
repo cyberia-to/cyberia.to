@@ -105,7 +105,7 @@ h1 .g { color: var(--green); }
     .proj .arr { display: none; }
 }
 /* page: flag on top, the thesis in the middle, the anthem at the bottom */
-.page { min-height: calc(100svh - 88px); display: flex; flex-direction: column; }
+.page { min-height: calc(100svh - 88px - 41px); display: flex; flex-direction: column; } /* 41px: the anthem bar */
 
 /* header: the brand is the flag and the name, and it leads home */
 .top { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 0; }
@@ -139,7 +139,7 @@ h1 { overflow-wrap: anywhere; }
 
 @media (max-width: 560px) {
     body { padding: 24px 16px 28px; }
-    .page { min-height: calc(100svh - 52px); }
+    .page { min-height: calc(100svh - 52px - 41px); }
     .hero { padding: 40px 0; }
     .bottom { gap: 20px; }
 }
