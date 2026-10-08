@@ -6,7 +6,7 @@
  * (the set by default); data-download points the download link at the embedding site's own copy.
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
  * gets its own player, no autoplay. one plays at a time. position and a deliberate pause persist per
- * track per origin, and survive page swaps (site.js) and reloads.
+ * track per origin, and survive reloads.
  * prysm content molecule, audio, one line 3g tall: button 3g, name, time, waveform 3g (bars g/8, gap g/8), a 3g square download. g = 8px. */
 (function () {
     if (window.cyberiaPlayer) return;
