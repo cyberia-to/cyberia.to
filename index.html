@@ -51,7 +51,15 @@ body {
 /* the brand is the flag and the name, and it leads home */
 .top { display: flex; align-items: center; justify-content: center; }
 .brand { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); }
-.brand svg { width: clamp(64px, 11vw, 104px); height: auto; flex: none; }
+.brand svg { width: clamp(64px, 11vw, 104px); height: auto; flex: none; transform-origin: 50% 50%; animation: flag-in 1.8s cubic-bezier(0.16, 0.9, 0.2, 1) both; }
+.brand:hover svg { animation: flag-turn 1.4s cubic-bezier(0.2, 0.9, 0.2, 1) both; }
+.brand svg circle { transform-box: fill-box; transform-origin: center; animation: dot-in 0.9s cubic-bezier(0.2, 0.9, 0.2, 1.4) both; }
+.brand svg circle:nth-child(2) { animation-delay: 0.08s; } .brand svg circle:nth-child(3) { animation-delay: 0.16s; } .brand svg circle:nth-child(4) { animation-delay: 0.24s; }
+.brand svg circle:nth-child(5) { animation-delay: 0.32s; } .brand svg circle:nth-child(6) { animation-delay: 0.40s; } .brand svg circle:nth-child(7) { animation-delay: 0.48s; }
+@keyframes flag-in { 0% { transform: rotate(-720deg) scale(0.3); opacity: 0; } 60% { opacity: 1; } 100% { transform: rotate(0deg) scale(1); opacity: 1; } }
+@keyframes flag-turn { 0% { transform: rotate(0deg); } 70% { transform: rotate(385deg); } 100% { transform: rotate(360deg); } }
+@keyframes dot-in { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .brand svg, .brand svg circle { animation: none !important; } }
 .brand .word { font-size: clamp(30px, 5.6vw, 58px); font-weight: 700; letter-spacing: 1px; line-height: 1; color: #fff; }
 .brand .word b { color: var(--green); font-weight: 700; }
 .brand .word i { color: #fff; font-style: normal; }
