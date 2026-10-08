@@ -29,5 +29,19 @@
         e.preventDefault(); swap(u.href, true);
     });
     window.addEventListener('popstate', function () { swap(location.href, false); });
+    // [data-copy]: a click puts the value on the clipboard and says so for a moment; the value itself stays hidden
+    document.addEventListener('click', function (e) {
+        var b = e.target.closest && e.target.closest('[data-copy]');
+        if (!b) return;
+        e.preventDefault();
+        var v = b.getAttribute('data-copy'), label = b.textContent;
+        function done() { b.textContent = 'copied'; b.classList.add('done'); setTimeout(function () { b.textContent = label; b.classList.remove('done'); }, 1500); }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(done, function () { fallback(); });
+        else fallback();
+        function fallback() {
+            var t = document.createElement('textarea'); t.value = v; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+            document.body.appendChild(t); t.select(); try { document.execCommand('copy'); done(); } catch (err) {} document.body.removeChild(t);
+        }
+    });
     history.replaceState({ cyberia: 1 }, '', location.href);
 })();
