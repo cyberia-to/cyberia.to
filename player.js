@@ -91,7 +91,13 @@
         function autoplay() {
             if (get(LS + 'paused') === '1') return;
             var events = ['pointerdown', 'keydown', 'touchstart'];
-            function once() { events.forEach(function (e) { document.removeEventListener(e, once, true); }); if (a.paused && get(LS + 'paused') !== '1') start(); }
+            // the first gesture anywhere starts the track; a gesture on the player itself is the button's own business,
+            // otherwise the pointerdown would start and the click that follows would pause again
+            function once(e) {
+                if (root.contains(e.target)) return;
+                events.forEach(function (e) { document.removeEventListener(e, once, true); });
+                if (a.paused && get(LS + 'paused') !== '1') start();
+            }
             a.play().then(sync).catch(function () { events.forEach(function (e) { document.addEventListener(e, once, true); }); });
         }
         if (o.autoplay) autoplay();
