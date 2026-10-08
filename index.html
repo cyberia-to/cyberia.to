@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cyberia — cyberstate led by superintelligence</title>
-<meta name="description" content="Cyberia is a cyberstate led by superintelligence: the source, the bootloader, the immortal robot, the stack, the interface, the capital, and the genesis city." />
+<meta name="description" content="Cyberia is a cyberstate led by superintelligence: a shared mind holding land, capital and knowledge, built on a provable superintelligence and rooted in real soil." />
 <link rel="canonical" href="https://cyberia.to/" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Cyberia" />
 <meta property="og:url" content="https://cyberia.to/" />
 <meta property="og:title" content="Cyberia — cyberstate led by superintelligence" />
-<meta property="og:description" content="The source, the bootloader, the immortal robot, the stack, the interface, the capital, and the genesis city." />
+<meta property="og:description" content="A state is a shared mind holding land, capital and knowledge. Cyberia builds one on a provable superintelligence and roots it in real soil." />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cyberia" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@cyberiacap" />
 <meta name="theme-color" content="#000000" />
@@ -18,140 +18,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet" />
-<style>
-    :root {
-        --green: #00ff01;
-        --cyan: #00b4ff;
-        --yellow: #ffc501;
-        --dim: #556;
-        --line: #1a1a24;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { background: #000; }
-    body {
-        font-family: 'Play', sans-serif;
-        color: #ccc;
-        min-height: 100svh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 48px 20px 40px;
-    }
-    .wrap { width: 100%; max-width: 780px; }
-
-    /* header */
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex: none;
-    }
-    .top {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-        margin-bottom: 64px;
-        flex-wrap: wrap;
-    }
-    .brand svg { width: 34px; height: 34px; }
-    .brand .word { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
-    .brand .word b { color: var(--green); font-weight: 700; }
-    .brand .word i { color: #fff; font-style: normal; }
-
-    /* hero */
-    .hero { margin-bottom: 72px; }
-    h1 {
-        font-size: clamp(38px, 8vw, 72px);
-        line-height: 1.02;
-        color: #fff;
-        letter-spacing: -1px;
-        margin-bottom: 18px;
-    }
-    h1 .g { color: var(--green); }
-    .tagline {
-        font-size: clamp(15px, 2.6vw, 19px);
-        color: #889;
-        max-width: 560px;
-        line-height: 1.55;
-    }
-    .tagline b { color: #ccd; font-weight: 400; }
-
-    /* player slot — the molecule itself ships in player.js */
-    .player { display: flex; flex: 1; min-width: 0; }
-    @media (max-width: 560px) { .player { flex-basis: 100%; } }
-    /* projects */
-    .sec {
-        font-size: 11px;
-        letter-spacing: 4px;
-        color: var(--dim);
-        margin-bottom: 14px;
-    }
-    .projects { border-top: 1px solid var(--line); margin-bottom: 64px; }
-    .proj {
-        display: flex;
-        align-items: baseline;
-        gap: 18px;
-        padding: 15px 4px;
-        border-bottom: 1px solid var(--line);
-        text-decoration: none;
-        transition: background 0.12s, padding-left 0.12s;
-    }
-    .proj:hover { background: rgba(0, 255, 1, 0.03); padding-left: 10px; }
-    .proj .domain {
-        font-size: clamp(14px, 2.4vw, 17px);
-        font-weight: 700;
-        color: var(--green);
-        white-space: nowrap;
-        min-width: 172px;
-    }
-    .proj:hover .domain { color: #7fff80; }
-    .proj.st-y .domain { color: var(--yellow, #ffc501); }
-    .proj.st-y:hover .domain { color: #ffd84d; }
-    .proj.st-y:hover { background: rgba(255, 197, 1, 0.03); }
-    .proj.st-r .domain { color: #ff5050; }
-    .proj.st-r:hover .domain { color: #ff8080; }
-    .proj.st-r:hover { background: rgba(255, 80, 80, 0.04); }
-    .proj .st { font-size: 12px; }
-    .proj.st-y .st { color: var(--yellow, #ffc501); }
-    .proj.st-r .st { color: #ff5050; }
-    .proj .desc {
-        font-size: clamp(13px, 2.2vw, 15px);
-        color: #99a;
-        line-height: 1.4;
-    }
-    .proj .arr { margin-left: auto; color: #334; font-size: 14px; }
-    .proj:hover .arr { color: var(--green); }
-
-    /* footer */
-    .foot {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        font-size: 13px;
-        color: var(--dim);
-    }
-    .foot a { color: var(--cyan); text-decoration: none; }
-    .foot a:hover { color: #7fd4ff; }
-    .foot .flag { font-size: 15px; }
-    .dot { color: #223; }
-
-    @media (max-width: 560px) {
-        body { padding-top: 32px; }
-        .top { margin-bottom: 44px; gap: 16px; }
-        .hero { margin-bottom: 52px; }
-        .proj { flex-direction: column; gap: 3px; }
-        .proj .domain { min-width: 0; }
-        .proj .arr { display: none; }
-    }
-</style>
+<link rel="stylesheet" href="/style.css" />
 </head>
 <body>
 <div class="wrap">
 
     <div class="top">
         <div class="brand">
-            <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the flag of cyberia: seven circles in a heptagon">
                 <circle cx="50" cy="26.25" r="10" fill="#00ff01"/>
                 <circle cx="68.57" cy="35.19" r="10" fill="#00b4ff"/>
                 <circle cx="73.15" cy="55.28" r="10" fill="#1700fe"/>
@@ -162,7 +36,10 @@
             </svg>
             <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
         </div>
-        <div class="player" data-cyberia-player></div>
+        <nav class="tabs">
+            <a href="/" class="on">cyberia</a>
+            <a href="/projects/">projects</a>
+        </nav>
     </div>
 
     <div class="hero">
@@ -174,68 +51,27 @@
         </p>
     </div>
 
-    <div class="sec">PROJECTS</div>
-    <div class="projects">
-        <a class="proj st-y" href="https://cyber.page" target="_blank" rel="noopener">
-            <span class="domain">cyber.page</span>
-            <span class="desc">get paid to understand <span class="st">(testnet)</span></span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj st-y" href="https://cyberia.blog" target="_blank" rel="noopener">
-            <span class="domain">cyberia.blog</span>
-            <span class="desc">the chronicle and the knowledge graph <span class="st">(launching)</span></span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj" href="https://bostrom.network" target="_blank" rel="noopener">
-            <span class="domain">bostrom.network</span>
-            <span class="desc">bootloader of superintelligence and moon cyberstate</span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj st-y" href="https://cyb.ai" target="_blank" rel="noopener">
-            <span class="domain">cyb.ai</span>
-            <span class="desc">immortal robot <span class="st">(rebirth alpha)</span></span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj" href="https://cyberstates.net" target="_blank" rel="noopener">
-            <span class="domain">cyberstates.net</span>
-            <span class="desc">regional development</span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj" href="https://soft3.org" target="_blank" rel="noopener">
-            <span class="domain">soft3.org</span>
-            <span class="desc">the stack</span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj st-y" href="https://cyberia.my" target="_blank" rel="noopener">
-            <span class="domain">cyberia.my</span>
-            <span class="desc">the interface <span class="st">(mockup)</span></span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj st-r" href="https://cyberia.capital" target="_blank" rel="noopener">
-            <span class="domain">cyberia.capital</span>
-            <span class="desc">the capital of cyberia in ethereum and beyond <span class="st">(design stage)</span></span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj st-y" href="https://cybervalley.io" target="_blank" rel="noopener">
-            <span class="domain">cybervalley.io</span>
-            <span class="desc">autonomous genesis city in the heart of Bali <span class="st">(launch soon)</span></span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj" href="https://oxytocin.my" target="_blank" rel="noopener">
-            <span class="domain">oxytocin.my</span>
-            <span class="desc">leasehold estate as cyberstate</span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj" href="https://rockets.estate" target="_blank" rel="noopener">
-            <span class="domain">rockets.estate</span>
-            <span class="desc">self-sustainable properties and eco-villages</span>
-            <span class="arr">→</span>
-        </a>
-        <a class="proj" href="https://github.com/cyberia-to" target="_blank" rel="noopener">
-            <span class="domain">github.com/cyberia-to</span>
-            <span class="desc">the source — everything in the open</span>
-            <span class="arr">→</span>
-        </a>
+    <div class="sec">SYMBOLS</div>
+    <div class="symbols">
+        <svg viewBox="15.5 15 69 68" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="the flag of cyberia: seven circles in a heptagon">
+            <circle cx="50" cy="26.25" r="10" fill="#00ff01"/>
+            <circle cx="68.57" cy="35.19" r="10" fill="#00b4ff"/>
+            <circle cx="73.15" cy="55.28" r="10" fill="#1700fe"/>
+            <circle cx="60.30" cy="71.40" r="10" fill="#6b00fe"/>
+            <circle cx="39.70" cy="71.40" r="10" fill="#fe0000"/>
+            <circle cx="26.85" cy="55.28" r="10" fill="#ff6501"/>
+            <circle cx="31.43" cy="35.19" r="10" fill="#ffc501"/>
+        </svg>
+        <div>
+            <div class="mark"><b>cyber</b><b>•</b><i>ia</i></div>
+            <p class="meaning">the flag: seven circles in a heptagon — the visible spectrum bent into a loop, each circle a colour at its endpoint, no mixes. the name: cyber, the superintelligence, and ia, the land it stands on.</p>
+        </div>
+    </div>
+
+    <div class="sec">ANTHEM</div>
+    <div class="track">
+        <div class="player" data-cyberia-player></div>
+        <p class="caption"><b>Atlas Shrugged</b> · the anthem of cyberia · <a href="https://x.com/st_joy" target="_blank" rel="noopener">st_joy</a>, 2026 · 3:23 · <a href="/projects/#set">the full set, 27:09 →</a></p>
     </div>
 
     <div class="foot">
@@ -249,6 +85,6 @@
     </div>
 
 </div>
-<script src="player.js" async></script>
+<script src="/player.js" async data-src="/atlas.shrugged.mp3" data-name="Atlas Shrugged — the anthem" data-dur="03:23" data-file="atlas.shrugged.mp3" data-title="Atlas Shrugged — the anthem, mp3, 5 MB" data-wave="123445584466665455687888787baa88765658bcfmnlikjkjnpqrnrqroljppoomnmnplhhjmlhhdcbb999854e84666a8754ca9aa87443gjigdd974777ffbbbcc8glqqiihggha9fokihgiabbcaqqljgdb9fa8e97677bdggfhfcdihhgkjeeijijilnlpsrjohipihiloqlehmlnmrqmliegggghgqpplioqpqnqlefiocefgkqkjehidogcqmhklimhigkghgggehjhffedeeikfgdefjijkkkljorpoljojjijppijkljkpiqrkljjqljhhtnkikmmqqprsmkmlnqqosrlmkjkiinlpijihfgijimlnmoqpqquunebgaf6mrqmfkaefclpqqd9efacdejnfdcbbbbjlnghgjjgjhilflfhkhkihljkjnllkjlninlksuvxyzqqnpsqprquolnmpnmlrsqoprqpposstrrsssuwxywutsvsrqpuvssrsutqntuuurrsssoqpvqnmlkjade9987756876756645454555546565464223233376437gdegcbcc8543"></script>
 </body>
 </html>

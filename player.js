@@ -1,5 +1,7 @@
-/* cyberia player — Atlas Shrugged, the set. one line to embed:
+/* cyberia player — Atlas Shrugged, the set by default. one line to embed:
  *   <script src="https://cyberia.to/player.js" async></script>
+ * data-src, data-name, data-dur, data-file, data-title, data-wave on the script tag play another track
+ * (the front page plays the anthem, /projects/ the set); position and pause persist per track per origin.
  * mounts into [data-cyberia-player] when the page has one, otherwise adds a fixed bar at the bottom.
  * data-download="/path/on/this/site.mp3": the download link points at the site's own copy, so the browser
  * saves it in one click (cross-origin links open in a tab instead). streaming stays on cyberia.to.
@@ -10,9 +12,11 @@
     if (window.__cyberiaPlayer) return; window.__cyberiaPlayer = true;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
     function boot() {
-    var SRC = 'https://cyberia.to/atlas.shrugged.set.mp3';
+    var SRC = cfg.src ? new URL(cfg.src, location.href).href : 'https://cyberia.to/atlas.shrugged.set.mp3';
+    var NAME = cfg.name || 'Atlas Shrugged \u2014 the set', DUR = cfg.dur || '27:09', FILE = cfg.file || 'atlas.shrugged.set.mp3';
+    var TITLE = cfg.title || 'Atlas Shrugged \u2014 the set, mp3, 65 MB';
     var CID = 'QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9';
-    var WAVE = 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs';
+    var WAVE = cfg.wave || 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs';
     var css = '.cybp{display:flex;align-items:center;gap:8px;height:24px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
         '.cybp *{box-sizing:border-box}' +
         '.cybp-pp{width:24px;height:24px;border-radius:50%;flex:none;border:1px solid #00ff01;background:transparent;color:#00ff01;font:9px/1 Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
@@ -35,9 +39,9 @@
     var mount = document.querySelector('[data-cyberia-player]'), root = document.createElement('div');
     root.className = 'cybp';
     root.innerHTML = '<button class="cybp-pp" aria-label="play">\u25B6</button><div class="cybp-body">' +
-        '<span class="cybp-name">Atlas Shrugged \u2014 the set</span><span class="cybp-time"><span class="cybp-t">00:00</span> / 27:09</span>' +
+        '<span class="cybp-name">' + NAME + '</span><span class="cybp-time"><span class="cybp-t">00:00</span> / ' + DUR + '</span>' +
         '<canvas height="24" aria-label="waveform, click to seek"></canvas>' +
-        '<a class="cybp-dl" href="' + (cfg.download || SRC) + '" download="atlas.shrugged.set.mp3" title="Atlas Shrugged \u2014 the set, mp3, 65 MB"><span>download </span>\u2193</a></div>';
+        '<a class="cybp-dl" href="' + (cfg.download || SRC) + '" download="' + FILE + '" title="' + TITLE + '"><span>download </span>\u2193</a></div>';
     var fab = null;
     if (mount) { mount.appendChild(root); }
     else if (cfg.mode === 'fab') {
@@ -53,7 +57,7 @@
     var G = 8, H = 3 * G, BAR = G / 8, GAP = G / 8, digits = '0123456789abcdefghijklmnopqrstuvwxyz';
     var wave = WAVE.split('').map(function (c) { return digits.indexOf(c) / 35; });
     var ctx = cv.getContext('2d'), dpr = window.devicePixelRatio || 1, W = 0, bars = [];
-    var LS = 'cyberia.player.';
+    var LS = 'cyberia.player.' + FILE + '.';
     function get(k) { try { return localStorage.getItem(LS + k); } catch (e) { return null; } }
     function put(k, v) { try { localStorage.setItem(LS + k, v); } catch (e) {} }
     function fmt(x) { x = Math.floor(x || 0); return (x / 60 | 0).toString().padStart(2, '0') + ':' + (x % 60).toString().padStart(2, '0'); }
