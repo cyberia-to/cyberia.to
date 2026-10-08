@@ -3,7 +3,8 @@
  * the primary player: mounts into [data-cyberia-player] when the page has one, otherwise a fixed bar at the
  * bottom; data-mode="fab" (data-bottom / data-right in px) gives a round corner button that unfolds.
  * data-track="anthem" or "set" names a track cyberia.to carries (the set by default); data-src, data-name, data-dur,
- * data-file, data-title, data-wave describe any other; data-download points the download link at the embedding site's own copy.
+ * data-file, data-title, data-wave describe any other; data-download points the download link at the embedding site's own copy;
+ * data-autoplay="typed" waits for the page's `cyberia:typed` event (15 s at most) before the first play.
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
  * gets its own player, no autoplay. one plays at a time. position and a deliberate pause persist per
  * track per origin, and survive reloads.
@@ -61,7 +62,7 @@
         var pp = root.querySelector('.cybp-pp'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
         var G = 8, H = 3 * G, BAR = G / 8, GAP = G / 8;
         var ctx = cv.getContext('2d'), dpr = window.devicePixelRatio || 1, W = 0, bars = [];
-        var me = { root: root, audio: a, size: size, file: file };
+        var me = { root: root, audio: a, size: size, file: file, start: function () { if (get(LS + 'paused') !== '1') start(); } };
         function size() {
             if (!cv.isConnected) return;
             W = cv.clientWidth; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -86,11 +87,14 @@
         function start() { players.forEach(function (o) { if (o !== me && !o.audio.paused) { o.audio.pause(); } }); a.play().then(sync).catch(function () {}); }
         var saved = parseFloat(get(LS + 't'));
         a.addEventListener('loadedmetadata', function () { if (saved > 0 && saved < a.duration - 5) a.currentTime = saved; draw(); });
-        if (o.autoplay && get(LS + 'paused') !== '1') {
+        function autoplay() {
+            if (get(LS + 'paused') === '1') return;
             var events = ['pointerdown', 'keydown', 'touchstart'];
             function once() { events.forEach(function (e) { document.removeEventListener(e, once, true); }); if (a.paused && get(LS + 'paused') !== '1') start(); }
             a.play().then(sync).catch(function () { events.forEach(function (e) { document.addEventListener(e, once, true); }); });
         }
+        if (o.autoplay === true) autoplay();
+        else if (o.autoplay === 'typed') { var armed = false, go = function () { if (!armed) { armed = true; autoplay(); } }; document.addEventListener('cyberia:typed', go); setTimeout(go, 15000); }
         pp.addEventListener('click', function (e) { e.stopPropagation(); if (a.paused) { put(LS + 'paused', '0'); start(); } else { a.pause(); put(LS + 'paused', '1'); sync(); } });
         cv.addEventListener('click', function (e) { if (a.duration) { a.currentTime = a.duration * (e.offsetX / W); draw(); } });
         a.addEventListener('play', sync); a.addEventListener('pause', sync);
@@ -119,7 +123,7 @@
     // the primary player: slot, bar or fab
     function boot() {
         var mount = document.querySelector('[data-cyberia-player]');
-        var primary = create({ track: cfg.track, src: cfg.src, name: cfg.name, dur: cfg.dur, file: cfg.file, title: cfg.title, wave: cfg.wave, download: cfg.download, autoplay: true });
+        var primary = create({ track: cfg.track, src: cfg.src, name: cfg.name, dur: cfg.dur, file: cfg.file, title: cfg.title, wave: cfg.wave, download: cfg.download, autoplay: cfg.autoplay === 'typed' ? 'typed' : true });
         var root = primary.root, fab = null, host = null;
         if (mount) { mount.appendChild(root); }
         else if (cfg.mode === 'fab') {

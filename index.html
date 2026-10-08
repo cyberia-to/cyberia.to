@@ -55,6 +55,7 @@ body {
 .brand .word { font-size: clamp(30px, 5.6vw, 58px); font-weight: 700; letter-spacing: 1px; line-height: 1; color: #fff; }
 .brand .word b { color: var(--green); font-weight: 700; }
 .brand .word i { color: #fff; font-style: normal; }
+.brand .word .dot { color: var(--green); font-size: 0.7em; font-weight: 400; vertical-align: 0.1em; margin: 0 0.03em; }
 
 /* the thesis, centred between the tiers; three lines on every screen */
 .hero { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 56px 0; }
@@ -170,7 +171,7 @@ h1 .g { color: var(--green); }
                 <circle cx="26.85" cy="55.28" r="10" fill="#ff6501"/>
                 <circle cx="31.43" cy="35.19" r="10" fill="#ffc501"/>
             </svg>
-            <span class="word"><b>cyber</b><b>•</b><i>ia</i></span>
+            <span class="word"><b>cyber</b><span class="dot">•</span><i>ia</i></span>
         </div>
     </header>
 
@@ -198,11 +199,13 @@ h1 .g { color: var(--green); }
     </footer>
 
 </div>
-<script src="/player.js" async data-track="anthem"></script>
+<script src="/player.js" async data-track="anthem" data-autoplay="typed"></script>
 <script>
-/* the thesis types itself for a visitor; the text is in the html for everyone else and for those who ask for stillness */
+/* the thesis types itself for a visitor, with a soft tick per letter, and the anthem follows the last one.
+   the text is in the html for everyone else and for those who ask for stillness. */
 (function () {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var done = function () { document.dispatchEvent(new Event('cyberia:typed')); };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return done();
     var parts = [].slice.call(document.querySelectorAll('.hero h1, .hero .tagline'));
     function nodes(el, out) { el.childNodes.forEach(function (n) { if (n.nodeType === 3) { if (n.textContent.trim()) out.push(n); } else if (n.nodeName !== 'BR') nodes(n, out); }); return out; }
     var queue = [];
@@ -211,17 +214,30 @@ h1 .g { color: var(--green); }
         nodes(el, []).forEach(function (n) {
             var text = n.textContent.replace(/\s+/g, ' ').trim(), span = document.createElement('span');
             n.parentNode.replaceChild(span, n);
-            queue.push({ span: span, text: text, pace: el.tagName === 'H1' ? 55 : 14 });
+            queue.push({ span: span, text: text, pace: el.tagName === 'H1' ? 55 : 14, loud: el.tagName === 'H1' });
         });
     });
+    // the tick: a 20 ms triangle blip at a whisper, only once the browser lets audio run
+    var ac = null;
+    function wake() { try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state !== 'running') ac.resume(); } catch (e) {} }
+    ['pointerdown', 'keydown', 'touchstart'].forEach(function (e) { document.addEventListener(e, wake, { once: true, capture: true }); });
+    wake();
+    function tick(loud) {
+        if (!ac || ac.state !== 'running') return;
+        var t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'triangle'; o.frequency.value = (loud ? 1400 : 2100) + Math.random() * 500;
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(loud ? 0.02 : 0.012, t + 0.003); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.022);
+        o.connect(g).connect(ac.destination); o.start(t); o.stop(t + 0.03);
+    }
     var cursor = document.createElement('span'); cursor.className = 'caret'; cursor.textContent = '\u258D';
     var i = 0, j = 0;
     function step() {
-        if (i >= queue.length) { cursor.remove(); return; }
+        if (i >= queue.length) { cursor.remove(); return done(); }
         var q = queue[i];
         if (j === 0) q.span.appendChild(cursor);
         if (j < q.text.length) {
             var ch = q.text.charAt(j++); q.span.insertBefore(document.createTextNode(ch), cursor);
+            if (ch !== ' ') tick(q.loud);
             setTimeout(step, ch === ' ' ? q.pace * 1.6 : q.pace + Math.random() * q.pace * 0.6);
         } else { i++; j = 0; setTimeout(step, 260); }
     }
