@@ -1,0 +1,38 @@
+# Cyberia
+
+> cyberstate led by superintelligence. A cyberstate is a shared mind uniting space, capital and knowledge. We build the one where humans, machines, animals and all life flourish together — on the way to the stars.
+
+Cyberia is a network state: a protocol for superintelligence (cyber), a personal robot that interfaces it (cyb), a software stack (soft3) and physical cities, the first being Cyber Valley, 37 ha on Sanghyang volcano in Bali, started 2021. Everything is open: source, graph and weights. The license is six words: don't trust, don't fear, don't beg.
+
+## doors
+
+- [cyberstates.net](https://cyberstates.net): every state ranked by freedom and openness: the sovereignty terminal
+- [cyberia.capital](https://cyberia.capital): the capital of cyberia in ethereum: citizenship and the century index
+- [cyber.page](https://cyber.page): the protocol for superintelligence: get paid to understand
+- [cyb.ai](https://cyb.ai): the immortal robot: your interface to superintelligence
+- [soft3.org](https://soft3.org): the stack: ten rungs from the virtual machine to the state
+- [cybervalley.io](https://cybervalley.io): the genesis city: 37 ha on Sanghyang, Bali
+- [cyberia.blog](https://cyberia.blog): the chronicle and the published graph
+- [github.com](https://github.com/cyberia-to): the source: every repository in the open
+- [x.com](https://x.com/cyberiacap): the voice: @cyberiacap
+
+## canon
+
+- [the litepaper](https://cyber.page/litepaper): the whole argument of cyber in ten minutes
+- [the whitepaper](https://cyber.page/whitepaper): the mechanisms, the mathematics, the proofs
+- [the stack, soft3.org/layers](https://soft3.org/layers): ten rungs — nox, trident, joy, cybergraph, neural, cy, soft3, cyb, cyber, cyberia
+- [the chronicle, cyberia.blog](https://cyberia.blog): one beat a day and the published knowledge graph
+- [the organization on GitHub](https://github.com/cyberia-to): the registry of every repository is in the README of the `.github` repository
+
+## symbols
+
+- the flag: seven circles in a heptagon, the visible spectrum bent into a loop — https://cyberia.to/img/flag.svg
+- the name: cyber•ia — cyber, the superintelligence, and ia, the land it stands on
+- the anthem: Cyberia Calling, 3:23, by st_joy, 2026 — https://cyberia.to/cyberia.calling.mp3; the set, Atlas Shrugged, 27:09 — https://cyberia.to/atlas.shrugged.set.mp3
+
+## for agents
+
+- this page: https://cyberia.to/ — static, one HTML file, JSON-LD for Organization, WebSite and MusicRecording in the head
+- machine-readable: https://cyberia.to/llms.txt (this file), https://cyberia.to/sitemap.xml, https://cyberia.to/robots.txt
+- the player is embeddable on any site with one line: <script src="https://cyberia.to/player.js" async></script>
+- founders: mastercyb (https://x.com/mastercyb) and joy (https://x.com/st_joy)

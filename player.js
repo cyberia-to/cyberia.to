@@ -2,8 +2,8 @@
  *   <script src="https://cyberia.to/player.js" async></script>
  * the primary player: mounts into [data-cyberia-player] when the page has one, otherwise a fixed bar at the
  * bottom; data-mode="fab" (data-bottom / data-right in px) gives a round corner button that unfolds.
- * data-src, data-name, data-dur, data-file, data-title, data-wave on the script tag choose its track
- * (the set by default); data-download points the download link at the embedding site's own copy.
+ * data-track="anthem" or "set" names a track cyberia.to carries (the set by default); data-src, data-name, data-dur,
+ * data-file, data-title, data-wave describe any other; data-download points the download link at the embedding site's own copy.
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
  * gets its own player, no autoplay. one plays at a time. position and a deliberate pause persist per
  * track per origin, and survive reloads.
@@ -11,8 +11,13 @@
 (function () {
     if (window.cyberiaPlayer) return;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
-    var SET_SRC = 'https://cyberia.to/atlas.shrugged.set.mp3';
-    var SET_WAVE = 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs';
+    // the two tracks cyberia.to carries; data-track names one, data-src and friends describe any other
+    var TRACKS = {
+        set:    { src: 'https://cyberia.to/atlas.shrugged.set.mp3', name: 'Atlas Shrugged \u2014 the set', dur: '27:09', file: 'atlas.shrugged.set.mp3', title: 'Atlas Shrugged \u2014 the set, mp3, 65 MB',
+                  wave: 'bcefnpokeehgjlklgkkomnmnlllkjmnnnnonlollkjlmmoqopqrqrofcdfimiihijhijklmmnooonklllkkklmnnnnjjknoooopoooqppqqqqqqhedemgghihjjjkhfgiiiklnopmkiijjkklmnmnnnnnlkklllllmlmnoopoqqqrrrrpkjjmppopnlkmonnllkkmomnkgepppnlprqqqqorssrrrrmrtttrkkjqttsrttsrqpooopmijklhnppppppqpoppppqqmjikppppppqpmkkmnlkmillpqqrnfhgqqqrqqqrmmlmlhimrrrrrssplkjjlllkklkjqppoqpopkjoonsokpmonlopoqrtrpmomruwuxzrkkllkjklkkoqpqppnonknqqpoojnpplqqqqrrqnmmsrsutjvyolihkkjjnmlnmlorrqoooonnjijonmrssrqrqssshmlrpqtuvvvvwnfrs' },
+        anthem: { src: 'https://cyberia.to/cyberia.calling.mp3', name: 'Cyberia Calling \u2014 Anthem', dur: '03:23', file: 'cyberia.calling.mp3', title: 'Cyberia Calling \u2014 Anthem, mp3, 5 MB',
+                  wave: '123445584466665455687888787baa88765658bcfmnlikjkjnpqrnrqroljppoomnmnplhhjmlhhdcbb999854e84666a8754ca9aa87443gjigdd974777ffbbbcc8glqqiihggha9fokihgiabbcaqqljgdb9fa8e97677bdggfhfcdihhgkjeeijijilnlpsrjohipihiloqlehmlnmrqmliegggghgqpplioqpqnqlefiocefgkqkjehidogcqmhklimhigkghgggehjhffedeeikfgdefjijkkkljorpoljojjijppijkljkpiqrkljjqljhhtnkikmmqqprsmkmlnqqosrlmkjkiinlpijihfgijimlnmoqpqquunebgaf6mrqmfkaefclpqqd9efacdejnfdcbbbbjlnghgjjgjhilflfhkhkihljkjnllkjlninlksuvxyzqqnpsqprquolnmpnmlrsqoprqpposstrrsssuwxywutsvsrqpuvssrsutqntuuurrsssoqpvqnmlkjade9987756876756645454555546565464223233376437gdegcbcc8543' }
+    };
     var css = '.cybp{display:flex;align-items:center;gap:8px;height:24px;flex:1;min-width:0;font-family:Play,sans-serif;box-sizing:border-box}' +
         '.cybp *{box-sizing:border-box}' +
         '.cybp-pp{width:24px;height:24px;border-radius:50%;flex:none;border:1px solid #00ff01;background:transparent;color:#00ff01;font:9px/1 Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
@@ -41,18 +46,17 @@
 
     // one player: the audio, the row, the waveform; opts: src name dur file title wave download autoplay
     function create(opts) {
-        var src = abs(opts.src || SET_SRC), isSet = src === SET_SRC;
-        var name = opts.name || 'Atlas Shrugged — the set', dur = opts.dur || (isSet ? '27:09' : '--:--');
-        var file = opts.file || (isSet ? 'atlas.shrugged.set.mp3' : src.split('/').pop());
-        var title = opts.title || (isSet ? 'Atlas Shrugged — the set, mp3, 65 MB' : name + ', mp3');
-        var wave = (opts.wave || (isSet ? SET_WAVE : 'kkkkkkkk')).split('').map(function (c) { return digits.indexOf(c) / 35; });
+        var preset = TRACKS[opts.track] || (opts.src ? null : TRACKS.set);
+        var o = {}; Object.keys(preset || {}).forEach(function (k) { o[k] = preset[k]; }); Object.keys(opts).forEach(function (k) { if (opts[k] != null) o[k] = opts[k]; });
+        var src = abs(o.src), name = o.name || src.split('/').pop(), dur = o.dur || '--:--', file = o.file || src.split('/').pop(), title = o.title || name + ', mp3';
+        var wave = (o.wave || 'kkkkkkkk').split('').map(function (c) { return digits.indexOf(c) / 35; });
         var LS = 'cyberia.player.' + file + '.';
         var root = document.createElement('div');
         root.className = 'cybp';
         root.innerHTML = '<button class="cybp-pp" aria-label="play">▶</button><div class="cybp-body">' +
             '<span class="cybp-name">' + name + '</span><span class="cybp-time"><span class="cybp-t">00:00</span> / ' + dur + '</span>' +
             '<canvas height="24" aria-label="waveform, click to seek"></canvas>' +
-            '<a class="cybp-dl" href="' + (opts.download || src) + '" download="' + file + '" title="' + title + '" aria-label="download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M4 19h16"/></svg></a></div>';
+            '<a class="cybp-dl" href="' + (o.download || src) + '" download="' + file + '" title="' + title + '" aria-label="download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M4 19h16"/></svg></a></div>';
         var a = new Audio(); a.src = src; a.preload = 'auto'; a.loop = true;
         var pp = root.querySelector('.cybp-pp'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
         var G = 8, H = 3 * G, BAR = G / 8, GAP = G / 8;
@@ -82,7 +86,7 @@
         function start() { players.forEach(function (o) { if (o !== me && !o.audio.paused) { o.audio.pause(); } }); a.play().then(sync).catch(function () {}); }
         var saved = parseFloat(get(LS + 't'));
         a.addEventListener('loadedmetadata', function () { if (saved > 0 && saved < a.duration - 5) a.currentTime = saved; draw(); });
-        if (opts.autoplay && get(LS + 'paused') !== '1') {
+        if (o.autoplay && get(LS + 'paused') !== '1') {
             var events = ['pointerdown', 'keydown', 'touchstart'];
             function once() { events.forEach(function (e) { document.removeEventListener(e, once, true); }); if (a.paused && get(LS + 'paused') !== '1') start(); }
             a.play().then(sync).catch(function () { events.forEach(function (e) { document.addEventListener(e, once, true); }); });
@@ -107,7 +111,7 @@
         var nodes = (scope || document).querySelectorAll('[data-cyberia-track]:not([data-cyberia-mounted])');
         Array.prototype.forEach.call(nodes, function (el) {
             el.setAttribute('data-cyberia-mounted', '1');
-            var d = el.dataset, p = create({ src: d.src, name: d.name, dur: d.dur, file: d.file, title: d.title, wave: d.wave, download: d.download });
+            var d = el.dataset, p = create({ track: d.track, src: d.src, name: d.name, dur: d.dur, file: d.file, title: d.title, wave: d.wave, download: d.download });
             el.appendChild(p.root); p.size();
         });
     }
@@ -115,7 +119,7 @@
     // the primary player: slot, bar or fab
     function boot() {
         var mount = document.querySelector('[data-cyberia-player]');
-        var primary = create({ src: cfg.src, name: cfg.name, dur: cfg.dur, file: cfg.file, title: cfg.title, wave: cfg.wave, download: cfg.download, autoplay: true });
+        var primary = create({ track: cfg.track, src: cfg.src, name: cfg.name, dur: cfg.dur, file: cfg.file, title: cfg.title, wave: cfg.wave, download: cfg.download, autoplay: true });
         var root = primary.root, fab = null, host = null;
         if (mount) { mount.appendChild(root); }
         else if (cfg.mode === 'fab') {
