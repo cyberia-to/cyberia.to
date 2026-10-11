@@ -12,14 +12,14 @@
 
     /* distances are compressed so the family fits on a desk; phases are a still that reads sun-left earth-right */
     var PLANETS = [
-        { id: 'mercury', a: 0.28, e: 0.38, T: 7.5,  r: 5.2,  phase: 0.55, kind: 'rock',  c0: '#f3ebe0', c1: '#a09080', c2: '#2a221c' },
-        { id: 'venus',   a: 0.52, e: 0.36, T: 16,   r: 9.0,  phase: 0.95, kind: 'venus', c0: '#fff4c8', c1: '#e2c36a', c2: '#5a3a10' },
-        { id: 'earth',   a: 1.00, e: 0.34, T: 36,   r: 0,    phase: 0.06, kind: 'earth' },
-        { id: 'mars',    a: 1.18, e: 0.33, T: 52,   r: 6.6,  phase: 0.38, kind: 'mars',  c0: '#ffc4a0', c1: '#e04a28', c2: '#2a0a08' },
-        { id: 'jupiter', a: 1.40, e: 0.30, T: 88,   r: 18,   phase: -0.86, kind: 'jupiter' },
-        { id: 'saturn',  a: 1.58, e: 0.28, T: 124,  r: 15,   phase: 0.80, kind: 'saturn' },
-        { id: 'uranus',  a: 1.74, e: 0.26, T: 170,  r: 9.0,  phase: -1.38, kind: 'ice',   c0: '#e7fffb', c1: '#7ec8d4', c2: '#12343c' },
-        { id: 'neptune', a: 1.88, e: 0.24, T: 210,  r: 8.6,  phase: 1.48, kind: 'ice',   c0: '#d0dcff', c1: '#3a5cff', c2: '#07082a' }
+        { id: 'mercury', a: 0.28, e: 0.38, T: 32,   r: 5.2,  phase: 0.55, kind: 'rock',  c0: '#f3ebe0', c1: '#a09080', c2: '#2a221c' },
+        { id: 'venus',   a: 0.52, e: 0.36, T: 72,   r: 9.0,  phase: 0.95, kind: 'venus', c0: '#fff4c8', c1: '#e2c36a', c2: '#5a3a10' },
+        { id: 'earth',   a: 1.00, e: 0.34, T: 160,  r: 0,    phase: 0.06, kind: 'earth' },
+        { id: 'mars',    a: 1.18, e: 0.33, T: 220,  r: 6.6,  phase: 0.38, kind: 'mars',  c0: '#ffc4a0', c1: '#e04a28', c2: '#2a0a08' },
+        { id: 'jupiter', a: 1.40, e: 0.30, T: 380,  r: 18,   phase: -0.86, kind: 'jupiter' },
+        { id: 'saturn',  a: 1.58, e: 0.28, T: 520,  r: 15,   phase: 0.80, kind: 'saturn' },
+        { id: 'uranus',  a: 1.74, e: 0.26, T: 720,  r: 9.0,  phase: -1.38, kind: 'ice',   c0: '#e7fffb', c1: '#7ec8d4', c2: '#12343c' },
+        { id: 'neptune', a: 1.88, e: 0.24, T: 880,  r: 8.6,  phase: 1.48, kind: 'ice',   c0: '#d0dcff', c1: '#3a5cff', c2: '#07082a' }
     ];
 
     function rng(seed) {
@@ -143,7 +143,7 @@
     }
 
     function drawEarth(ctx, x, y, r, t) {
-        var mth = t / 6.2 * TAU + 0.4;
+        var mth = t / 18 * TAU + 0.4;
         var mxp = x + Math.cos(mth) * r * 1.78;
         var myp = y + Math.sin(mth) * r * 0.58;
         var moonBehind = Math.sin(mth) < 0;
@@ -163,7 +163,7 @@
             ctx.beginPath(); ctx.arc(x, y, r, 0, TAU);
             ctx.fillStyle = ocean; ctx.fill();
 
-            var rot = t / 18 * TAU;
+            var rot = t / 48 * TAU;
             ctx.save();
             ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.clip();
             function land(lon, lat, rx, ry, color) {
@@ -196,10 +196,6 @@
             ctx.fillStyle = night;
             ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
             ctx.restore();
-
-            ctx.beginPath(); ctx.arc(x, y, r, 0, TAU);
-            ctx.strokeStyle = 'rgba(180,235,255,0.65)';
-            ctx.lineWidth = 1.7; ctx.stroke();
         }
         if (moonBehind) { moon(); globe(); } else { globe(); moon(); }
     }
@@ -309,7 +305,7 @@
                 a: 1.26 + rnd() * 0.12,
                 e: 0.31 + rnd() * 0.04,
                 th: rnd() * TAU,
-                T: 64 + rnd() * 48,
+                T: 240 + rnd() * 160,
                 r: 0.45 + rnd() * 1.2,
                 c: rnd() > 0.5 ? '#d0c0a8' : '#8a7a68'
             });

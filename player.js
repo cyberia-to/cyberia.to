@@ -28,8 +28,9 @@
         '.cybp canvas{display:block;flex:1;min-width:48px;width:0;height:48px;cursor:pointer}' +
         '.cybp-dl{width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;border:2px solid #00b4ff;border-radius:50%;color:#00b4ff;text-decoration:none;transition:background 150ms ease,color 150ms ease}' +
         '.cybp-dl svg{width:22px;height:22px}.cybp-dl:hover{background:rgba(0,180,255,.1)}.cybp-dl:active{background:#00b4ff;color:#000}' +
-        '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:#000;padding:12px 16px 16px;display:flex;justify-content:center}' +
-        '.cybp-bar .cybp{max-width:780px}' +
+        '.cybp-bar{position:fixed;left:0;right:0;bottom:0;z-index:2147483000;background:transparent;padding:12px 16px 16px;display:flex;justify-content:center;pointer-events:none}' +
+        '.cybp-bar .cybp{max-width:780px;width:100%;position:relative;isolation:isolate;pointer-events:auto}' +
+        '.cybp-bar .cybp:before{content:"";position:absolute;left:-64px;right:-64px;top:-28px;bottom:-20px;z-index:-1;pointer-events:none;background:rgba(0,0,0,.38);-webkit-backdrop-filter:blur(18px) saturate(1.15);backdrop-filter:blur(18px) saturate(1.15);-webkit-mask-image:radial-gradient(ellipse 78% 120% at 50% 78%,#000 18%,rgba(0,0,0,.55) 48%,transparent 78%);mask-image:radial-gradient(ellipse 78% 120% at 50% 78%,#000 18%,rgba(0,0,0,.55) 48%,transparent 78%)}' +
         '.cybp-fab{position:fixed;z-index:2147483000;background:#000;border:1px solid #1a1a24;border-radius:16px;padding:3px;display:flex}' +
         '.cybp-fab .cybp{flex-direction:row-reverse;gap:0}' +
         '.cybp-fab .cybp-body{flex:none;width:0;opacity:0;overflow:hidden;transition:width 150ms ease,opacity 150ms ease}' +
