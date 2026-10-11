@@ -97,6 +97,10 @@ h1 .g { color: var(--green); }
     line-height: 1.5;
 }
 .tagline .t1 { white-space: nowrap; }
+.tagline .t2 { display: block; }
+@media (min-width: 960px) {
+    .tagline .t2 { white-space: nowrap; } /* <br> still starts the coda; the lead stays one line */
+}
 .tagline b { color: #ccd; font-weight: 400; }
 .caret { color: var(--green); font-weight: 400; animation: caret 0.9s steps(2, end) infinite; }
 @keyframes caret { 50% { opacity: 0; } }
@@ -239,7 +243,7 @@ h1 .g { color: var(--green); }
         <h1>Cyberstate<br />led by<br /><span class="g">superintelligence</span></h1>
         <p class="tagline">
             <span class="t1">A cyberstate is a shared mind uniting space, money and knowledge.</span>
-            <span class="t2">We build the one where humans, machines, animals and all life flourish together — on the way to the stars.</span>
+            <span class="t2">We build the one where humans, machines, animals and all life flourish together<br />— on the way to the stars.</span>
         </p>
     </main>
 
