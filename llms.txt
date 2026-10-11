@@ -1,13 +1,13 @@
 # Cyberia
 
-> cyberstate led by superintelligence. A cyberstate is a shared mind uniting space, capital and knowledge. We build the one where humans, machines, animals and all life flourish together — on the way to the stars.
+> cyberstate led by superintelligence. A cyberstate is a shared mind uniting space, money and knowledge. We build the one where humans, machines, animals and all life flourish together — on the way to the stars.
 
 Cyberia is a network state: a protocol for superintelligence (cyber), a personal robot that interfaces it (cyb), a software stack (soft3) and physical cities, the first being Cyber Valley, 37 ha on Sanghyang volcano in Bali, started 2021. Everything is open: source, graph and weights. The license is six words: don't trust, don't fear, don't beg.
 
 ## doors
 
-- [cyberstates.net](https://cyberstates.net): every state ranked by freedom and openness: the sovereignty terminal
-- [cyberia.capital](https://cyberia.capital): the capital of cyberia in ethereum: citizenship and the century index
+- [cyberia.my](https://cyberia.my): the space of cyberia: cities
+- [cyb.money](https://cyb.money): the money of cyberia
 - [cyber.page](https://cyber.page): the protocol for superintelligence: get paid to understand
 - [cyb.ai](https://cyb.ai): the immortal robot: your interface to superintelligence
 - [soft3.org](https://soft3.org): the stack: ten rungs from the virtual machine to the state
