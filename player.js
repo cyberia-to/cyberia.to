@@ -7,7 +7,7 @@
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
  * gets its own player, no autoplay. one plays at a time. position persists per track per origin across
  * visits; a deliberate pause persists for the tab's session only, so every new visit plays.
- * prysm content molecule, audio, one line 6g tall: play 6g, name, time, waveform 6g (bars g/8, gap g/8), download 6g, the two round. g = 8px. */
+ * prysm content molecule, audio, one line 6g tall: play 6g, to-the-start 6g, name, time, waveform 6g (bars g/8, gap g/8), download 6g, the round ones. g = 8px. */
 (function () {
     if (window.cyberiaPlayer) return;
     var cfg = (document.currentScript && document.currentScript.dataset) || {};
@@ -22,6 +22,8 @@
         '.cybp *{box-sizing:border-box}' +
         '.cybp-pp{width:48px;height:48px;border-radius:50%;flex:none;border:2px solid #00ff01;background:transparent;color:#00ff01;font:18px/1 Play,sans-serif;cursor:pointer;padding:0;transition:background 150ms ease,color 150ms ease}' +
         '.cybp-pp:hover{background:rgba(0,255,1,.08)}.cybp-pp.on{background:#00ff01;color:#000}' +
+        '.cybp-rw{width:48px;height:48px;border-radius:50%;flex:none;border:2px solid #1a1a24;background:transparent;color:#00ff01;font:16px/1 Play,sans-serif;cursor:pointer;padding:0;transition:border-color 150ms ease,background 150ms ease}' +
+        '.cybp-rw:hover{border-color:#00ff01;background:rgba(0,255,1,.08)}.cybp-rw:active{background:#00ff01;color:#000}' +
         '.cybp-body{display:flex;align-items:center;gap:14px;flex:1;min-width:0;height:48px}' +
         '.cybp-name{color:#fff;font-weight:700;font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}' +
         '.cybp-time{color:#00ff01;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}' +
@@ -36,7 +38,7 @@
         '.cybp-fab .cybp-body{flex:none;width:0;opacity:0;overflow:hidden;transition:width 150ms ease,opacity 150ms ease}' +
         '.cybp-fab:hover .cybp-body,.cybp-fab.open .cybp-body{width:min(360px,calc(100vw - 80px));opacity:1;margin:0 8px 0 12px}' +
         '[data-cyberia-track]{display:flex;min-width:0}' +
-        '@media (max-width:560px){.cybp-name{display:none}.cybp,.cybp-body,.cybp canvas{height:40px}.cybp-pp,.cybp-dl{width:40px;height:40px}.cybp-pp{font-size:15px}.cybp-dl svg{width:18px;height:18px}.cybp-time{font-size:13px}.cybp-bar{padding:8px 12px 10px}}';
+        '@media (max-width:560px){.cybp-name{display:none}.cybp,.cybp-body,.cybp canvas{height:40px}.cybp-pp,.cybp-dl,.cybp-rw{width:40px;height:40px}.cybp-rw{font-size:13px}.cybp-pp{font-size:15px}.cybp-dl svg{width:18px;height:18px}.cybp-time{font-size:13px}.cybp-bar{padding:8px 12px 10px}}';
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
     var players = [], digits = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -57,11 +59,12 @@
         var root = document.createElement('div');
         root.className = 'cybp';
         root.innerHTML = '<button class="cybp-pp" aria-label="play">▶</button><div class="cybp-body">' +
+            '<button class="cybp-rw" aria-label="to the start" title="to the start">\u23EE</button>' +
             '<span class="cybp-name">' + name + '</span><span class="cybp-time"><span class="cybp-t">00:00</span> / ' + dur + '</span>' +
             '<canvas height="24" aria-label="waveform, click to seek"></canvas>' +
             '<a class="cybp-dl" href="' + (o.download || src) + '" download="' + file + '" title="' + title + '" aria-label="download"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0 4-4m-4 4-4-4M4 19h16"/></svg></a></div>';
         var a = new Audio(); a.src = src; a.preload = 'auto'; a.loop = true;
-        var pp = root.querySelector('.cybp-pp'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
+        var pp = root.querySelector('.cybp-pp'), rw = root.querySelector('.cybp-rw'), t = root.querySelector('.cybp-t'), cv = root.querySelector('canvas');
         var G = 8, H = 6 * G, BAR = G / 8, GAP = G / 8;
         var ctx = cv.getContext('2d'), dpr = window.devicePixelRatio || 1, W = 0, bars = [];
         var me = { root: root, audio: a, size: size, file: file };
@@ -104,6 +107,8 @@
         if (o.autoplay) autoplay();
         pp.addEventListener('click', function (e) { e.stopPropagation(); if (a.paused) { put(LS + 'paused', '0'); start(); } else { a.pause(); put(LS + 'paused', '1'); sync(); } });
         cv.addEventListener('click', function (e) { if (a.duration) { a.currentTime = a.duration * (e.offsetX / W); draw(); } });
+        // back to the start — the saved position follows, so a reload starts from the top too
+        rw.addEventListener('click', function (e) { e.stopPropagation(); a.currentTime = 0; last = 0; put(LS + 't', '0'); t.textContent = fmt(0); draw(); });
         a.addEventListener('play', sync); a.addEventListener('pause', sync);
         var last = 0;
         a.addEventListener('timeupdate', function () {
@@ -149,12 +154,13 @@
                 .observe(document.documentElement, { childList: true, subtree: true });
         }
         if (fab) {
-            var pp = root.querySelector('.cybp-pp'), closer = 0;
+            var pp = root.querySelector('.cybp-pp'), rw = root.querySelector('.cybp-rw'), closer = 0;
             fab.addEventListener('mouseenter', function () { setTimeout(primary.size, 170); });
-            pp.addEventListener('click', function () {
+            function hold() {
                 fab.classList.add('open'); setTimeout(primary.size, 170);
                 clearTimeout(closer); closer = setTimeout(function () { fab.classList.remove('open'); }, 4000);
-            });
+            }
+            pp.addEventListener('click', hold); rw.addEventListener('click', hold);
         }
         window.addEventListener('resize', function () { players.forEach(function (o) { o.size(); }); });
         primary.size();
