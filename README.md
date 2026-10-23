@@ -5,7 +5,7 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
 
 - `index.html` — the page: the flag and the name on top (the brand leads home), the thesis in the
   middle, nine tiles and the anthem bar at the bottom. The full list of projects with their stages is
-  the graph page `cyberia/constellation`.
+  the graph page `cyberia/projects`.
 - `sky.js` — the living solar system behind the page on a desk: the sun on the left, the earth on
   the right, the rest of the planets on their orbits. Hidden on a phone; still for `prefers-reduced-motion`.
 - `fonts/` — Play 400 and 700, latin, self-hosted; the page carries its stylesheet inline, so the first paint needs the html and two fonts and nothing else.
