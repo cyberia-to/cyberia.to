@@ -2,6 +2,7 @@
 # sync the cyberia.to page from the public repo into the nginx docroot.
 # runs from cron on cyberproxy as user cyber, once a minute.
 umask 022
+date -u +%FT%TZ > "$0.last"  # the heartbeat the apparatus cockpit's ticks read: this run, whether or not anything changed
 CLONE=/home/cyber/cyberia-to-site
 DOCROOT_FILE=/home/cyber/cyberia-to-docroot
 
