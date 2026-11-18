@@ -21,6 +21,8 @@ Writes sun.jpg (1024 px, the limb at 0.8 of half the frame — SUN_FILL in sky.j
 earth-night.jpg (1024 × 512) and planets.jpg: eight maps 512 × 256 one under another — mercury, venus, mars,
 jupiter, saturn, uranus, neptune, moon — then saturn's rings from the inside out, 16 px of colour weighed by
 opacity and 16 px of opacity. Every map is equirectangular with the prime meridian in the middle.
+And img/planets/<id>.jpg: each planet's map at 2048 × 1024 and the moon's at 1024 × 512, loaded only when a
+visitor opens that body to turn it and see its plots.
 """
 import sys
 
@@ -106,6 +108,17 @@ def planets():
     atlas.save(OUT + '/planets.jpg', quality=86, optimize=True, progressive=True, subsampling=0)
 
 
+def close():
+    import os
+    os.makedirs(OUT + '/planets', exist_ok=True)
+    names = dict(zip(ATLAS, ['mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']))
+    for src, name in names.items():
+        im = Image.open(PLANET % src).convert('RGB').resize((2048, 1024), Image.LANCZOS)
+        im.save(OUT + '/planets/' + name + '.jpg', quality=80, optimize=True, progressive=True)
+    Image.open(MOON).convert('RGB').resize((1024, 512), Image.LANCZOS).save(OUT + '/planets/moon.jpg', quality=84, optimize=True, progressive=True)
+
+
 sun()
 earth()
 planets()
+close()

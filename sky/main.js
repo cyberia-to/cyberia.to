@@ -9,12 +9,14 @@
    sky/scene.js     the geometry of this screen and the camera
    sky/spheres.js   a map on a lit ball
    sky/bodies.js    the sun, the earth, the moon, the planets
-   sky/backdrop.js  the stars, the milky way, the orbits as light, the belt, the meteors */
+   sky/backdrop.js  the stars, the milky way, the orbits as light, the belt, the meteors
+   sky/plots.js     every body cut into 10 242 plots
+   sky/focus.js     a click on a body opens it: sky/globe.js turns it in WebGL, sky/panel.js shows its plots */
 
 var DESKTOP = '(min-width: 960px)';
 var STILL = '(prefers-reduced-motion: reduce)';
 
-var sky = null, canvas = null, ctx = null, running = false, raf = 0, t0 = 0, last = 0;
+var sky = null, canvas = null, ctx = null, running = false, paused = false, raf = 0, t0 = 0, last = 0;
 
 function desktop() { return matchMedia(DESKTOP).matches; }
 function still() { return matchMedia(STILL).matches; }
@@ -24,8 +26,8 @@ function clock() { return sky.astro.julian(Date.now()); }
 
 function load() {
     if (!sky) {
-        sky = Promise.all([import('./astro.js'), import('./scene.js'), import('./bodies.js'), import('./backdrop.js')])
-            .then(function (m) { return (sky = { astro: m[0], scene: m[1], bodies: m[2], backdrop: m[3] }); });
+        sky = Promise.all([import('./astro.js'), import('./scene.js'), import('./bodies.js'), import('./backdrop.js'), import('./focus.js')])
+            .then(function (m) { return (sky = { astro: m[0], scene: m[1], bodies: m[2], backdrop: m[3], focus: m[4] }); });
     }
     return Promise.resolve(sky);
 }
@@ -55,6 +57,7 @@ function paint(t, dt) {
     /* the earth turns a quarter of a degree a minute, jupiter and saturn faster still */
     b.tick(jd);
     list = b.placeBodies(jd);
+    sky.focus.track(list);
     for (i = 0; i < list.length; i++) {
         if (list[i].sun) b.drawSun(ctx, t);
         else b.drawPlanet(ctx, list[i].p, list[i].x, list[i].y, list[i].r, list[i].moon);
@@ -63,7 +66,7 @@ function paint(t, dt) {
 }
 
 function frame(now) {
-    if (!running) return;
+    if (!running || paused) return;
     if (!last) last = now;
     var t = (now - t0) / 1000;
     var dt = Math.min(0.05, (now - last) / 1000);
@@ -82,6 +85,7 @@ function begin() {
             document.body.insertBefore(canvas, document.body.firstChild);
             ctx = canvas.getContext('2d', { alpha: false });
             sky.bodies.loadTextures(clock, function () { if (running && still()) paint(0, 0); });
+            sky.focus.init({ clock: clock, pause: pause, resume: resume });
         }
         canvas.style.display = '';
         layout();
@@ -96,6 +100,10 @@ function start() {
     if (!desktop()) { stop(); return; }
     load().then(begin).catch(function (err) { try { console.error(err); } catch (e) {} });
 }
+
+/* while a body is open up close, the sky behind it holds still */
+function pause() { paused = true; if (raf) cancelAnimationFrame(raf); raf = 0; }
+function resume() { paused = false; if (running && !still()) { last = 0; raf = requestAnimationFrame(frame); } }
 
 function stop() {
     running = false;
@@ -116,7 +124,7 @@ function onResize() {
 
 document.addEventListener('visibilitychange', function () {
     if (document.hidden) { if (raf) cancelAnimationFrame(raf); raf = 0; last = 0; }
-    else if (running && !still()) { last = 0; raf = requestAnimationFrame(frame); }
+    else if (running && !paused && !still()) { last = 0; raf = requestAnimationFrame(frame); }
 });
 window.addEventListener('resize', onResize);
 matchMedia(DESKTOP).addEventListener('change', onResize);

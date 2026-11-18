@@ -20,13 +20,24 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
   - `spheres.js` — a map on a lit ball. `bodies.js` — the sun, the earth, the moon, the planets.
   - `backdrop.js` — the stars, the milky way, the orbits as light, the belt, the meteors.
   - `main.js` — the canvas, the one clock, the frame loop; it imports the rest only on a desk.
-  - `test.mjs` — `node sky/test.mjs`: the sun against the almanac, the moon against published new and full moons,
-    the planets against the 2020 great conjunction and the 2025 mars opposition.
+  - `plots.js` — every body cut into the same 10 242 plots: a geodesic grid of 10 230 hexagons within 1.22× of
+    each other's area and twelve pentagons of 5/6 of a hexagon. A plot's number is fixed by the cut documented
+    at the top of the file; change the cut and every number changes.
+  - `focus.js`, `globe.js`, `panel.js` — a click on any planet or the moon opens it up close: the body in WebGL,
+    lit by the sun from where it truly stands, cut into its plots; drag turns it, the wheel comes nearer, a click
+    chooses a plot. The panel beside it gives the body's numbers and the chosen plot's centre, exact area, shape,
+    neighbours and its ground from the map. The owner line holds a dash until a registry is connected.
+    Links, buttons and the player keep their clicks.
+  - `test.mjs` — `node sky/test.mjs`: the sun against the almanac, the earth's axes against the point under the
+    sun, the moon against published new and full moons, the planets against the 2020 great conjunction and the
+    2025 mars opposition; the plots tile the sphere and every point falls in the plot `pick` names.
 - `img/sun.jpg`, `img/earth.jpg`, `img/earth-night.jpg`, `img/planets.jpg` — the maps `sky/` loads on a desk
   only. NASA, public domain: SDO/AIA 304 Å of 2026-11-17 17:38 UT, Blue Marble 2002 with clouds, Black Marble
   2012, the LRO colour map of the moon. Solar System Scope, CC BY 4.0, made from NASA mission data: mercury,
   venus, mars, jupiter, saturn and its rings, uranus, neptune. `img/textures.py` builds the four files from
   the originals named in its header; a fresh SDO frame gives a fresh sun.
+- `img/planets/` — each planet's map at 2048 × 1024 and the moon's at 1024 × 512 from the same sources, loaded
+  only when a visitor opens that body.
 - `fonts/` — Play 400 and 700, latin, self-hosted; the page carries its stylesheet inline, so the first paint needs the html and two fonts and nothing else.
 - `player.js` — the player as one embeddable file. Any site adds
   `<script src="https://cyberia.to/player.js" async></script>`; it mounts into `[data-cyberia-player]`

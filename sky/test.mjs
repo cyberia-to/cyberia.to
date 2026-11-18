@@ -49,6 +49,14 @@ function almanacSubsolar(jd, iso) {
     check('point under the sun ' + iso, dl < 0.5 && db < 0.1, 'Δlon ' + dl.toFixed(2) + '°, Δlat ' + db.toFixed(2) + '°');
 });
 
+/* the earth's own axes put the sun over the same point */
+['2026-06-21T06:00:00Z', '2026-11-17T18:13:00Z'].forEach(function (iso) {
+    var jd = jdOf(iso), e = A.planetEcl('earth', A.centuries(jd)), s = A.norm3(-e.x, -e.y, -e.z), ax = A.earthAxes(jd);
+    var lon = Math.atan2(A.dot3(s, ax.Y), A.dot3(s, ax.X)) / A.DEG, lat = Math.asin(A.dot3(s, ax.Z)) / A.DEG, r = almanacSubsolar(jd, iso);
+    var dl = Math.abs(wrap(lon - r.lon)), db = Math.abs(lat - r.lat);
+    check('earth axes: point under the sun ' + iso, dl < 0.5 && db < 0.1, 'Δlon ' + dl.toFixed(2) + '°, Δlat ' + db.toFixed(2) + '°');
+});
+
 /* the moon: new and full moons as published (UTC) */
 [['2024-01-11T11:57:00Z', 0], ['2024-01-25T17:54:00Z', 180], ['2025-01-29T12:36:00Z', 0]].forEach(function (c) {
     var jd = jdOf(c[0]), m = A.moonEcl(jd), el = Math.abs(wrap(lonDeg([m.x, m.y]) - geoLon('sun', jd) - c[1]));

@@ -117,3 +117,22 @@ export function moonAxes(jd) {
     var X = norm3(-m.x, -m.y, -m.z), Z = norm3(-X[2] * X[0], -X[2] * X[1], 1 - X[2] * X[2]), Y = cross(Z, X);
     return { X: X, Y: Y, Z: Z };
 }
+
+/* a vector on the ecliptic of date → on the J2000 ecliptic: the equinox turned back */
+export function toJ2000(v, jd) {
+    var p = -precession(jd), c = Math.cos(p), s = Math.sin(p);
+    return [v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2]];
+}
+
+/* the earth's axes on the J2000 ecliptic: Z the north pole, X the meridian of Greenwich, turned by sidereal time */
+export function earthAxes(jd) {
+    var g = gmst(jd), cg = Math.cos(g), sg = Math.sin(g), cE = Math.cos(EPS), sE = Math.sin(EPS);
+    function ecl(v) { return toJ2000([v[0], v[1] * cE + v[2] * sE, -v[1] * sE + v[2] * cE], jd); }
+    return { X: ecl([cg, sg, 0]), Y: ecl([-sg, cg, 0]), Z: ecl([0, 0, 1]) };
+}
+
+/* the moon's axes on the J2000 ecliptic */
+export function moonAxesJ2000(jd) {
+    var m = moonAxes(jd);
+    return { X: toJ2000(m.X, jd), Y: toJ2000(m.Y, jd), Z: toJ2000(m.Z, jd) };
+}
