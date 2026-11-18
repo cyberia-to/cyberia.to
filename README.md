@@ -6,14 +6,21 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
 - `index.html` — the page: the anthem as one thin line on top, the flag and the name under it (the brand
   leads home), the thesis in the middle, nine tiles at the bottom. The full list of projects with their stages is
   the graph page `cyberia/projects`.
-- `sky.js` — the living solar system behind the page on a desk: the sun on the left, the earth on
-  the right, the rest of the planets where they stand today. Hidden on a phone; still for `prefers-reduced-motion`.
-  Every body is a photograph or a map on a sphere: the sun is an SDO frame; the earth is turned to the current
-  hour by sidereal time and split into day and night by where the sun stands; the moon keeps its near side to
-  the earth; each planet is turned by its IAU pole and day, saturn with its rings and both shadows.
-  The orbits are light: each brightest at its planet and fading along the way it has come. The stars of the
-  catalogue are soft points of light, each breathing at its own pace.
-- `img/sun.jpg`, `img/earth.jpg`, `img/earth-night.jpg`, `img/planets.jpg` — the maps `sky.js` loads on a desk
+- `sky/` — the living solar system behind the page on a desk: the sun on the left, the earth on the right, the
+  rest of the planets where they stand today. Hidden on a phone, which loads only `sky/main.js`; still for
+  `prefers-reduced-motion`. Every body is a photograph or a map on a sphere: the sun is an SDO frame; the earth is
+  turned to the current hour by sidereal time and split into day and night by where the sun stands; the moon keeps
+  its near side to the earth; each planet is turned by its IAU pole and day, saturn with its rings and both shadows.
+  The orbits are light, each brightest at its planet and fading along the way it has come; the catalogue stars are
+  soft points of light, each breathing at its own pace. Native ES modules, imported one way only:
+  - `facts.js` — the tables: JPL orbital elements, IAU poles and radii, the Yale bright stars, each with its source.
+  - `astro.js` — the laws: positions and axes as pure functions of the Julian day; no clock, no page.
+  - `look.js` — the taste: sizes, colours, glow, orbit blur, star glow, twinkle — every number the owner tunes.
+  - `draw.js` — the 2d primitives. `scene.js` — the geometry of this screen and the camera.
+  - `spheres.js` — a map on a lit ball. `bodies.js` — the sun, the earth, the moon, the planets.
+  - `backdrop.js` — the stars, the milky way, the orbits as light, the belt, the meteors.
+  - `main.js` — the canvas, the one clock, the frame loop; it imports the rest only on a desk.
+- `img/sun.jpg`, `img/earth.jpg`, `img/earth-night.jpg`, `img/planets.jpg` — the maps `sky/` loads on a desk
   only. NASA, public domain: SDO/AIA 304 Å of 2026-11-17 17:38 UT, Blue Marble 2002 with clouds, Black Marble
   2012, the LRO colour map of the moon. Solar System Scope, CC BY 4.0, made from NASA mission data: mercury,
   venus, mars, jupiter, saturn and its rings, uranus, neptune. `img/textures.py` builds the four files from
