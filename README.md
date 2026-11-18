@@ -20,6 +20,8 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
   - `spheres.js` — a map on a lit ball. `bodies.js` — the sun, the earth, the moon, the planets.
   - `backdrop.js` — the stars, the milky way, the orbits as light, the belt, the meteors.
   - `main.js` — the canvas, the one clock, the frame loop; it imports the rest only on a desk.
+  - `test.mjs` — `node sky/test.mjs`: the sun against the almanac, the moon against published new and full moons,
+    the planets against the 2020 great conjunction and the 2025 mars opposition.
 - `img/sun.jpg`, `img/earth.jpg`, `img/earth-night.jpg`, `img/planets.jpg` — the maps `sky/` loads on a desk
   only. NASA, public domain: SDO/AIA 304 Å of 2026-11-17 17:38 UT, Blue Marble 2002 with clouds, Black Marble
   2012, the LRO colour map of the moon. Solar System Scope, CC BY 4.0, made from NASA mission data: mercury,
