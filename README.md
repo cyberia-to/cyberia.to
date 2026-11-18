@@ -3,8 +3,8 @@
 Source of https://cyberia.to — one static page, no build step. Public because
 cyberproxy clones it without credentials; a push to `main` reaches the site within a minute.
 
-- `index.html` — the page: the flag and the name on top (the brand leads home), the thesis in the
-  middle, nine tiles and the anthem bar at the bottom. The full list of projects with their stages is
+- `index.html` — the page: the anthem as one thin line on top, the flag and the name under it (the brand
+  leads home), the thesis in the middle, nine tiles at the bottom. The full list of projects with their stages is
   the graph page `cyberia/projects`.
 - `sky.js` — the living solar system behind the page on a desk: the sun on the left, the earth on
   the right, the rest of the planets where they stand today. Hidden on a phone; still for `prefers-reduced-motion`.

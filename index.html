@@ -56,8 +56,20 @@ canvas.sky {
 h1, .tagline, .brand .word { text-shadow: 0 1px 2px #000, 0 0 22px #000, 0 0 54px rgba(0,0,0,0.9); }
 @media (max-width: 959px) { canvas.sky { display: none !important; } }
 
-/* page: three tiers; 41px is the anthem bar player.js adds at the bottom */
-.page { min-height: calc(100svh - min(88px, 5.5vh) - var(--cybp-bar, 76px)); display: flex; flex-direction: column; } /* the anthem bar sets --cybp-bar; every size below scales with the viewport height so the page never scrolls */
+/* page: the anthem on top, then three tiers; every size below scales with the viewport height so the page never scrolls */
+.page { min-height: calc(100svh - min(88px, 5.5vh)); display: flex; flex-direction: column; }
+
+/* the anthem: one thin line above the brand; player.js mounts into the slot */
+.anthem { display: flex; justify-content: center; min-height: 28px; margin-bottom: min(22px, 2.4vh); }
+.anthem .cybp { flex: 0 1 560px; height: 28px; gap: 10px; }
+.anthem .cybp-body { height: 28px; gap: 10px; }
+.anthem .cybp-pp, .anthem .cybp-rw, .anthem .cybp-dl { width: 28px; height: 28px; border-width: 1.5px; }
+.anthem .cybp-pp { font-size: 11px; }
+.anthem .cybp-rw { font-size: 10px; }
+.anthem .cybp-dl svg { width: 14px; height: 14px; }
+.anthem .cybp-name { font-size: 14px; text-shadow: 0 1px 2px #000, 0 0 14px #000; }
+.anthem .cybp-time { font-size: 12px; }
+.anthem .cybp canvas { height: 20px; }
 
 /* the brand is the flag and the name, and it leads home */
 .top { display: flex; align-items: center; justify-content: center; }
@@ -105,8 +117,8 @@ h1 .g { color: var(--green); }
 .caret { color: var(--green); font-weight: 400; animation: caret 0.9s steps(2, end) infinite; }
 @keyframes caret { 50% { opacity: 0; } }
 
-/* the bottom tier: the tiles; the anthem bar is fixed below them */
-.bottom { margin-top: auto; }
+/* the bottom tier: the tiles, lifted off the floor of the screen */
+.bottom { margin-top: auto; padding-bottom: min(72px, 8vh); }
 
 /* tiles: where cyberia lives on the web — three by three; a saber on the left, as on old.cyb.ai */
 .tiles { display: flex; flex-wrap: wrap; gap: min(10px, 1.1vh); }
@@ -200,7 +212,8 @@ h1 .g { color: var(--green); }
 
 @media (max-width: 600px) {
     body { padding: min(20px, 2.4vh) 16px min(24px, 2.8vh); }
-    .page { min-height: calc(100svh - min(44px, 5.2vh) - var(--cybp-bar, 58px)); }
+    .page { min-height: calc(100svh - min(44px, 5.2vh)); }
+    .bottom { padding-bottom: min(36px, 4.5vh); }
     .brand svg { width: min(52px, 6.5vh); }
     .brand .word { font-size: min(26px, 3.3vh); }
     .hero { padding: min(24px, 2.4vh) 0; }
@@ -224,6 +237,8 @@ h1 .g { color: var(--green); }
 </head>
 <body>
 <div class="wrap page">
+
+    <div class="anthem" data-cyberia-player></div>
 
     <header class="top">
         <div class="brand">
@@ -263,7 +278,7 @@ h1 .g { color: var(--green); }
     </footer>
 
 </div>
-<script src="/sky.js" defer></script>
+<script src="/sky.js" async></script>
 <script src="/player.js" async data-track="anthem"></script>
 <script>
 /* the thesis types itself for a visitor; the text is in the html for everyone else and for those who ask for stillness */
