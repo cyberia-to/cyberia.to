@@ -8,7 +8,8 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
   the graph page `cyberia/projects`.
 - `sky/` — the living solar system behind the page on a desk: the sun on the left, the earth on the right, the
   rest of the planets where they stand today. Hidden on a phone, which loads only `sky/main.js`; still for
-  `prefers-reduced-motion`. Every body is a photograph or a map on a sphere: the sun is an SDO frame; the earth is
+  `prefers-reduced-motion`. Every body is a photograph or a map on a sphere: the sun is SDO's last two days, turning
+  and burning, its corona breathing with the light SDO recorded; the earth is
   turned to the current hour by sidereal time and split into day and night by where the sun stands; the moon keeps
   its near side to the earth; each planet is turned by its IAU pole and day, saturn with its rings and both shadows.
   The orbits are light, each brightest at its planet and fading along the way it has come; the catalogue stars are
@@ -36,6 +37,10 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
   2012, the LRO colour map of the moon. Solar System Scope, CC BY 4.0, made from NASA mission data: mercury,
   venus, mars, jupiter, saturn and its rings, uranus, neptune. `img/textures.py` builds the four files from
   the originals named in its header; a fresh SDO frame gives a fresh sun.
+- `img/sun-motion.mp4`, `img/sun-motion.json` — the sun in motion: SDO's last 48 hours at 304 Å (2026-11-16 → 18)
+  in the page's palette, looped without a seam, played at half speed on a desk; the json holds the disc's
+  recorded brightness per frame, which the corona follows. The still `img/sun.jpg` stays for the first paint
+  and for `prefers-reduced-motion`. `img/sun_motion.py` rebuilds both from SDO's latest movie.
 - `img/planets/` — each planet's map at 2048 × 1024 and the moon's at 1024 × 512 from the same sources, loaded
   only when a visitor opens that body.
 - `fonts/` — Play 400 and 700, latin, self-hosted; the page carries its stylesheet inline, so the first paint needs the html and two fonts and nothing else.

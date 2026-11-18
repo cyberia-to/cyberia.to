@@ -23,10 +23,14 @@ export const PLANETS = ORDER.map(function (id) {
 
 export const MOON = ['#f7f4ee', '#a8a49c', '#1c1c1a'];
 
-/* the sun: its corona around the disc (reach in radii, colour, strength), and the haze far behind the orbits */
+/* the sun: its corona around the disc (reach in radii, colour, strength), and the haze far behind the orbits.
+   speed: how fast SDO's last 48 hours run (1 = 13 s for the whole recording). flicker: how strongly the corona
+   follows the disc's recorded brightness — it changes by about 1%, so it is multiplied to be seen */
 export const SUN = {
     corona: [[4.6, '#fe0000', 0.08], [2.9, '#ff6501', 0.24], [1.75, '#ffc501', 0.58]],
-    haze: [[6.8, '#ff6501', 0.08], [3.8, '#ffc501', 0.09]]
+    haze: [[6.8, '#ff6501', 0.08], [3.8, '#ffc501', 0.09]],
+    speed: 0.5,
+    flicker: 9
 };
 
 /* the orbits: a line of light (width css px, strength) blurred by three veils (radius css px, weight).

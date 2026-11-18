@@ -102,8 +102,8 @@ function start() {
 }
 
 /* while a body is open up close, the sky behind it holds still */
-function pause() { paused = true; if (raf) cancelAnimationFrame(raf); raf = 0; }
-function resume() { paused = false; if (running && !still()) { last = 0; raf = requestAnimationFrame(frame); } }
+function pause() { paused = true; if (raf) cancelAnimationFrame(raf); raf = 0; sky.bodies.hold(true); }
+function resume() { paused = false; sky.bodies.hold(false); if (running && !still()) { last = 0; raf = requestAnimationFrame(frame); } }
 
 function stop() {
     running = false;
@@ -123,8 +123,8 @@ function onResize() {
 }
 
 document.addEventListener('visibilitychange', function () {
-    if (document.hidden) { if (raf) cancelAnimationFrame(raf); raf = 0; last = 0; }
-    else if (running && !paused && !still()) { last = 0; raf = requestAnimationFrame(frame); }
+    if (document.hidden) { if (raf) cancelAnimationFrame(raf); raf = 0; last = 0; if (sky && sky.bodies) sky.bodies.hold(true); }
+    else if (running && !paused && !still()) { last = 0; sky.bodies.hold(false); raf = requestAnimationFrame(frame); }
 });
 window.addEventListener('resize', onResize);
 matchMedia(DESKTOP).addEventListener('change', onResize);

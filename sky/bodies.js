@@ -1,7 +1,7 @@
-/* the bodies: the sun as a photograph, the earth turned to the hour with its day and night, the moon,
-   the planets — baked from their maps, placed at their true positions, drawn nearest last */
+/* the bodies: the sun as SDO saw it over the last two days, the earth turned to the hour with its day and night,
+   the moon, the planets — baked from their maps, placed at their true positions, drawn nearest last */
 import { TAU, EPS, hypot3, centuries, planetEcl, moonEcl, gmst, moonAxes } from './astro.js';
-import { unit, smooth, glowDisc } from './draw.js';
+import { unit, smooth, still, glowDisc } from './draw.js';
 import { PLANETS, MOON, SUN } from './look.js';
 import { dpr, sx, sy, sunR, earthR, cam, earthWorld, toWorld, project, vantage, moonRadius, bodyRadius } from './scene.js';
 import { texels, texel, bakeBall, framed, spin, shown, stamp } from './spheres.js';
@@ -12,6 +12,7 @@ var MAPS = ['mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune'
 
 export var tex = { sun: null, day: null, night: null, atlas: null, dayPx: null, nightPx: null, maps: null, ring: null };
 var sunSprite = null, sprites = {}, earthBaked = 0, earthJob = null;
+var motion = null; /* the sun in motion: { v: the video, light: the disc's brightness per frame, fps, since } */
 
 /* the maps arrive one by one; each bakes what it feeds, then ready() lets the page repaint */
 export function loadTextures(clock, ready) {
@@ -30,6 +31,32 @@ export function loadTextures(clock, ready) {
     load('/img/earth.jpg', 'day', function () { bakeEarth(clock()); });
     load('/img/earth-night.jpg', 'night', function () { bakeEarth(clock()); });
     load('/img/planets.jpg', 'atlas', function () { cutAtlas(); bakeBodies(clock()); });
+    if (!still()) moving();
+}
+
+/* SDO's last 48 hours at 304 Å, looped: the sun turns, its plasma rises and falls; the photograph stays until
+   the first frame plays, and for anyone who asked for stillness */
+function moving() {
+    var v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+    fetch('/img/sun-motion.json').then(function (r) { return r.json(); }).then(function (meta) {
+        v.addEventListener('playing', function () {
+            if (!motion) motion = { v: v, light: meta.light, fps: meta.fps, since: performance.now() };
+        });
+        v.src = '/img/sun-motion.mp4';
+        v.playbackRate = SUN.speed;
+        v.defaultPlaybackRate = SUN.speed;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+    }).catch(function () {});
+}
+
+/* hold the sun's motion while the sky is paused or hidden */
+export function hold(on) {
+    if (!motion) return;
+    if (on) motion.v.pause();
+    else { var p = motion.v.play(); if (p && p.catch) p.catch(function () {}); }
 }
 
 /* everything again, for a new layout */
@@ -231,8 +258,13 @@ export function drawHaze(ctx) {
 }
 
 export function drawSun(ctx, t) {
-    var x = sx, y = sy, r = sunR, i, h;
-    var pulse = 1 + 0.04 * Math.sin(t * 0.7) + 0.018 * Math.sin(t * 1.9);
+    var x = sx, y = sy, r = sunR, i, h, m = motion && !still() && motion.v.readyState >= 2 ? motion : null, f;
+    /* the corona breathes with the disc's recorded light: brighter when SDO saw it brighter */
+    var pulse = 1;
+    if (m) {
+        f = Math.floor(m.v.currentTime * m.fps) % m.light.length;
+        pulse = 1 + SUN.flicker * (m.light[f] - 1);
+    }
     ctx.save();
     ctx.globalCompositeOperation = 'lighter';
     for (i = 0; i < SUN.corona.length; i++) {
@@ -261,7 +293,9 @@ export function drawSun(ctx, t) {
         ctx.fillStyle = core;
         ctx.beginPath(); ctx.arc(x, y, r * 1.01, 0, TAU); ctx.fill();
         ctx.globalCompositeOperation = 'lighter';
-        ctx.drawImage(sunSprite.c, x - h, y - h, 2 * h, 2 * h);
+        var km = m ? shown(m) : 0;
+        if (km < 1) { ctx.globalAlpha = k * (1 - km); ctx.drawImage(sunSprite.c, x - h, y - h, 2 * h, 2 * h); }
+        if (km > 0) { ctx.globalAlpha = k * km; ctx.drawImage(m.v, x - h, y - h, 2 * h, 2 * h); }
         ctx.restore();
     }
 }
