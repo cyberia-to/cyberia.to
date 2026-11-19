@@ -1,4 +1,6 @@
 /* a click on a body in the sky opens it up close: the globe to turn on the left, its plots' panel on the right.
+   the earth is the one exception: its plots live in cyberia.my, so a click on it opens that, in a tab of its own
+   like the cyberia.my tile, and the anthem plays on.
    the page keeps its links: a click on a link, a button or the player is theirs, never a body's */
 import { centuries, planetEcl, moonEcl, bodyAxes, earthAxes, moonAxesJ2000, toJ2000, norm3, dot3, cross } from './astro.js';
 import { POLES, RADIUS_KM } from './facts.js';
@@ -30,6 +32,8 @@ var CSS = '.orb{position:fixed;inset:0;z-index:2147483100;display:flex;align-ite
     '.orb-hint{margin-top:18px;font-size:13px;color:#667}' +
     '.orb-close{position:absolute;top:18px;right:22px;width:40px;height:40px;border-radius:50%;border:1.5px solid #1a1a24;background:transparent;color:#ccc;font:22px/1 Play,sans-serif;cursor:pointer}' +
     '.orb-close:hover{border-color:#00ff01;color:#00ff01}';
+
+var EARTH = 'https://cyberia.my/';
 
 var hooks = null, list = [], open = null, styled = false;
 
@@ -64,6 +68,7 @@ function onMove(e) {
 function onClick(e) {
     if (open || interactive(e.target)) return;
     var id = hit(e.clientX, e.clientY);
+    if (id === 'earth') { window.open(EARTH, '_blank', 'noopener'); return; }
     if (id) { document.documentElement.style.cursor = ''; show(id); }
 }
 

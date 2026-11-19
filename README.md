@@ -28,6 +28,7 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
     lit by the sun from where it truly stands, cut into its plots; drag turns it, the wheel comes nearer, a click
     chooses a plot. The panel beside it gives the body's numbers and the chosen plot's centre, exact area, shape,
     neighbours and its ground from the map. The owner line holds a dash until a registry is connected.
+    A click on the earth opens https://cyberia.my in a new tab, where the earth's plots live.
     Links, buttons and the player keep their clicks.
   - `test.mjs` — `node sky/test.mjs`: the sun against the almanac, the earth's axes against the point under the
     sun, the moon against published new and full moons, the planets against the 2020 great conjunction and the
