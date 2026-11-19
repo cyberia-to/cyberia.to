@@ -51,7 +51,11 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
   on the script tag gives a round corner button that unfolds. It plays the set unless
   `data-src`/`data-name`/`data-dur`/`data-file`/`data-title`/`data-wave` on the script tag name another
   track; `data-track="anthem"` or `"set"` names one of the two tracks it carries (this page plays the anthem); any `<div data-cyberia-track …>` gets an inline player; one plays
-  at a time; position and a deliberate pause persist per track per origin.
+  at a time; position and a deliberate pause persist per track per origin. `data-autoplay="off"` makes the
+  primary player wait for its play button (this page does).
+- `cyberia.anthem.mp3` — what this page plays: Atlas Shrugged I three times, then the set's other seven
+  tracks as its tail, 33:33, chapters inside. Built by `anthem.py` from the set's lossless master and its
+  first track; each repeat enters the way the set joins I to II.
 - `cyberia.calling.mp3` — Cyberia Calling, the anthem: one render, 3:23, by st_joy, 2026.
 - `atlas.shrugged.set.mp3` — Atlas Shrugged, the set: eight Suno renders of the anthem joined into
   27:09. IPFS particle `QmWPHsA3EPBwkLYGHXLmJpjhrcvmEGvjfw6mqaCuZ9qvQ9`. Built in `~/cyber/atlas.shrugged/set/`.
