@@ -51,8 +51,8 @@ cyberproxy clones it without credentials; a push to `main` reaches the site with
   on the script tag gives a round corner button that unfolds. It plays the set unless
   `data-src`/`data-name`/`data-dur`/`data-file`/`data-title`/`data-wave` on the script tag name another
   track; `data-track="anthem"` or `"set"` names one of the two tracks it carries (this page plays the anthem); any `<div data-cyberia-track …>` gets an inline player; one plays
-  at a time; position and a deliberate pause persist per track per origin. `data-autoplay="off"` makes the
-  primary player wait for its play button (this page does).
+  at a time; position persists per track per origin. Every player waits for its play button;
+  `data-autoplay="on"` on the script tag starts the primary one by itself.
 - `cyberia.anthem.mp3` — what this page plays: Atlas Shrugged I three times, then the set's other seven
   tracks as its tail, 33:33, chapters inside. Built by `anthem.py` from the set's lossless master and its
   first track; each repeat enters the way the set joins I to II.

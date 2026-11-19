@@ -5,9 +5,10 @@
  * data-track="anthem" or "set" names a track cyberia.to carries (the set by default); data-src, data-name, data-dur,
  * data-file, data-title, data-wave describe any other; data-download points the download link at the embedding site's own copy.
  * inline players: any <div data-cyberia-track data-src=… data-name=… data-dur=… data-file=…> on the page
- * gets its own player, no autoplay. one plays at a time. position persists per track per origin across
- * visits; a deliberate pause persists for the tab's session only, so every new visit plays.
- * data-autoplay="off": the primary player waits for its play button and fetches only the track's length until then.
+ * gets its own player. one plays at a time. position persists per track per origin across visits.
+ * the primary player waits for its play button and fetches only the track's length until then;
+ * data-autoplay="on" starts it on arrival, or on the first gesture where the browser asks for one — a deliberate
+ * pause then holds for the tab's session.
  * prysm content molecule, audio, one line 6g tall: play 6g, to-the-start 6g, name, time, waveform 6g (bars g/8, gap g/8), download 6g, the round ones. g = 8px. */
 (function () {
     if (window.cyberiaPlayer) return;
@@ -43,7 +44,7 @@
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
     var players = [], digits = '0123456789abcdefghijklmnopqrstuvwxyz';
-    // position lives across visits; a deliberate pause lives for the tab's session only — a new visit plays again
+    // position lives across visits; a deliberate pause lives for the tab's session only
     function store(k) { return k.slice(-6) === 'paused' ? sessionStorage : localStorage; }
     function get(k) { try { return store(k).getItem(k); } catch (e) { return null; } }
     function put(k, v) { try { store(k).setItem(k, v); } catch (e) {} }
@@ -136,7 +137,7 @@
     // the primary player: slot, bar or fab
     function boot() {
         var mount = document.querySelector('[data-cyberia-player]');
-        var primary = create({ track: cfg.track, src: cfg.src, name: cfg.name, dur: cfg.dur, file: cfg.file, title: cfg.title, wave: cfg.wave, download: cfg.download, autoplay: cfg.autoplay !== 'off' });
+        var primary = create({ track: cfg.track, src: cfg.src, name: cfg.name, dur: cfg.dur, file: cfg.file, title: cfg.title, wave: cfg.wave, download: cfg.download, autoplay: cfg.autoplay === 'on' });
         var root = primary.root, fab = null, host = null;
         if (mount) { mount.appendChild(root); }
         else if (cfg.mode === 'fab') {
